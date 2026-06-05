@@ -16,3 +16,6 @@ while not done:
         screen.fill(bg_clr)
 
         pygame.display.flip()
+
+pygane.quit()
+sys.exit()
