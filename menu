@@ -1,0 +1,29 @@
+import pygame
+import os
+import sys
+
+pygame.init()
+screen = pygame.display.set_mode((400, 300))
+pygame.display.set_caption("Pizza Game")
+done = False
+
+bg_clr = (151, 65, 31)
+
+menu_clr = (255, 238, 170)
+rect_width = 100
+rect_height = 200
+menu = pygame.Rect(0, 0, rect_width, rect_height)
+menu.center = screen.get_rect().center
+
+while not done:
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                        done = True
+        screen.fill(bg_clr)
+        
+        pygame.draw.rect(screen, clr, menu)
+
+        pygame.display.flip()
+
+pygmae.quit()
+sys.exit()
