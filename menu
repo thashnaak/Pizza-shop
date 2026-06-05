@@ -21,9 +21,9 @@ while not done:
                         done = True
         screen.fill(bg_clr)
         
-        pygame.draw.rect(screen, clr, menu)
+        pygame.draw.rect(screen, menu_clr, menu)
 
         pygame.display.flip()
 
-pygmae.quit()
+pygame.quit()
 sys.exit()
