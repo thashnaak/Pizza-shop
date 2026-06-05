@@ -7,10 +7,12 @@ screen = pygame.display.set_mode((400, 300))
 pygame.display.set_caption("Pizza Game")
 done = False
 
+bg_clr = (151, 65, 31)
+
 while not done:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                         done = True
-         screen.fill(151, 65, 31)
+         screen.fill(bg_clr)
 
         pygame.display.flip()
