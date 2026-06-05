@@ -3,15 +3,15 @@ import os
 import sys
 
 pygame.init()
-screen = pygame.display.set_mode((400, 300))
+screen = pygame.display.set_mode((1000, 600))
 pygame.display.set_caption("Pizza Game")
 done = False
 
 bg_clr = (151, 65, 31)
 
 menu_clr = (255, 238, 170)
-rect_width = 100
-rect_height = 200
+rect_width = 400
+rect_height = 500
 menu = pygame.Rect(0, 0, rect_width, rect_height)
 menu.center = screen.get_rect().center
 
