@@ -8,6 +8,9 @@ pygame.display.set_caption("Pizza Game")
 done = False
 
 bg_clr = (151, 65, 31)
+title_clr = (216, 104, 40)
+font = pygame.font.SysFont(None, 48)
+menu_title = font.render("Menu", True, title_clr)
 
 menu_clr = (255, 238, 170)
 rect_width = 400
@@ -20,6 +23,8 @@ while not done:
                 if event.type == pygame.QUIT:
                         done = True
         screen.fill(bg_clr)
+        
+        screen.blit(menu_title, (450, 20))
         
         pygame.draw.rect(screen, menu_clr, menu)
 
