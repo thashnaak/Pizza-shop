@@ -6,13 +6,11 @@ pygame.init()
 screen = pygame.display.set_mode((400, 300))
 pygame.display.set_caption("Pizza Game")
 done = False
-title_image = pygame.image.load("title_bg.png").convert()
-title_image = pygame.transform.scale(title_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 while not done:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                         done = True
-         screen.blit(title_bg, (0, 0))
+         screen.fill(151, 65, 31)
 
         pygame.display.flip()
