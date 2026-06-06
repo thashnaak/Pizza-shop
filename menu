@@ -13,10 +13,7 @@ font = pygame.font.SysFont(None, 48)
 menu_title = font.render("Menu", True, title_clr)
 
 menu_clr = (255, 238, 170)
-rect_width = 400
-rect_height = 500
-menu = pygame.Rect(0, 0, rect_width, rect_height)
-menu.center = screen.get_rect().center
+menu = pygame.Rect(300, 80, 400, 500)
 
 while not done:
         for event in pygame.event.get():
