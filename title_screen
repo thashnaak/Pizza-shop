@@ -2,6 +2,8 @@ import pygame
 import os
 import sys
 
+pygame.font.init()
+font = pygame.font.Font(None, 35)
 pygame.init()
 screen = pygame.display.set_mode((1000, 600))
 pygame.display.set_caption("Pizza Game")
@@ -9,12 +11,48 @@ done = False
 
 bg_clr = (151, 65, 31)
 
-menu_clr = (255, 238, 170)
-rect_width = 300
-rect_height = 400
+text_clr = (255, 238, 170)
+rect_width = 400
+rect_height = 300
 info = pygame.Rect(0, 0, rect_width, rect_height)
-#Change the 0,0 
-imfo.left = screen.get_rect().left
+info.center = screen.get_rect().center
+info.centerx -=200   # Makes it move left
+info.centery += 100   # Adding moves it down
+
+
+# First line 
+text_surface1 = font.render("Basic Info:", True, (151,65,31)) #CHANGE TO DARKER COLOR
+text_rect1 = text_surface1.get_rect()
+# Second line
+text_surface2 = font.render("Author: Swara and Thashnaa", True, (151,65,31))
+text_rect2 = text_surface2.get_rect()
+# Third line 
+text_surface3 = font.render("Teacher: Ms.Xie", True, (151,65,31))
+text_rect3 = text_surface3.get_rect()
+# Fourth line 
+text_surface4 = font.render("Course code: TEJ 207", True, (151,65,31))
+text_rect4 = text_surface4.get_rect()
+# Fifth line 
+text_surface5 = font.render("Date: June 5 2026", True, (151,65,31))
+text_rect5 = text_surface5.get_rect()
+
+
+# Position the first line
+text_rect1.centerx = info.centerx
+text_rect1.bottom = info.centery - 60  # 60 pixels above the middle
+# Position the second line 
+text_rect2.centerx = info.centerx
+text_rect2.top = info.centery - 30     # 30 pixels above the middle
+# Position the third line 
+text_rect3.centerx = info.centerx
+text_rect3.top = info.centery 
+# Position the fourth line 
+text_rect4.centerx = info.centerx
+text_rect4.top = info.centery + 30     # 30 pixels below the middle
+# Position the fifth line 
+text_rect5.centerx = info.centerx
+text_rect5.top = info.centery + 60    # 60 pixels below the middle
+
 
 while not done:
         for event in pygame.event.get():
@@ -22,9 +60,13 @@ while not done:
                         done = True
         screen.fill(bg_clr)
         
-        pygame.draw.rect(screen, menu_clr, info)
+        pygame.draw.rect(screen, text_clr, info)
+        screen.blit(text_surface1, text_rect1)
+        screen.blit(text_surface2, text_rect2)
+        screen.blit(text_surface3, text_rect3)
+        screen.blit(text_surface4, text_rect4)
+        screen.blit(text_surface5, text_rect5)
         pygame.display.flip()
         
 pygame.quit()
 sys.exit()
-        
