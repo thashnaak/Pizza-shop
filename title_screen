@@ -4,9 +4,12 @@ import sys
 
 pygame.font.init()
 font = pygame.font.Font(None, 35)
+title_font = pygame.font.Font(None, 90) 
+subtitle_font = pygame.font.Font(None, 40)
+
 pygame.init()
 screen = pygame.display.set_mode((1000, 600))
-pygame.display.set_caption("Pizza Game")
+pygame.display.set_caption("Welcome to Fraction Pizzeria ")
 done = False
 
 bg_clr = (151, 65, 31)
@@ -19,7 +22,24 @@ info.center = screen.get_rect().center
 info.centerx -=200   # Makes it move left
 info.centery += 100   # Adding moves it down
 
+#TITLE
+title_surface = title_font.render("Welcome to Fraction Pizzeria!", True, text_clr)
+title_rect = title_surface.get_rect()
 
+# Position the title
+title_rect.centerx = screen.get_rect().centerx  # Center it 
+title_rect.top = 50
+
+
+#SUBtitle
+subtitle_surface = subtitle_font.render ("Tap on “NEXT” when you are ready to move on!", True, text_clr)
+subtitle_rect = subtitle_surface.get_rect()
+
+# Position the subtitle
+subtitle_rect.centerx = screen.get_rect().centerx  # Center it 
+subtitle_rect.top = 100
+
+#Work for the in text box --------------------------------------------------------------
 # First line 
 text_surface1 = font.render("Basic Info:", True, (151,65,31)) #CHANGE TO DARKER COLOR
 text_rect1 = text_surface1.get_rect()
@@ -59,6 +79,11 @@ while not done:
                 if event.type == pygame.QUIT:
                         done = True
         screen.fill(bg_clr)
+        
+        # title text
+        screen.blit(title_surface, title_rect)        
+        #Subtitle text
+        screen.blit(subtitle_surface, subtitle_rect)        
         
         pygame.draw.rect(screen, text_clr, info)
         screen.blit(text_surface1, text_rect1)
