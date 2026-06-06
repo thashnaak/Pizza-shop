@@ -91,6 +91,15 @@ btn_surface = btn_font.render("NEXT", True, btn_text_color)
 btn_text_rect = btn_surface.get_rect()
 btn_text_rect.center = button_rect.center
 
+
+#Pizza image---------------------------------------------------------
+raw_image = pygame.image.load("pizza2.png")
+image_surface = pygame.transform.scale(raw_image, (220, 220))
+image_rect = image_surface.get_rect()
+
+#Aliging the image
+image_rect.centerx = button_rect.centerx  
+image_rect.bottom = button_rect.top - 20 
 while not done:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -117,6 +126,9 @@ while not done:
                                 
         pygame.draw.rect(screen, btn_color, button_rect)
         screen.blit(btn_surface, btn_text_rect)
+        
+        screen.blit(image_surface, image_rect)
+        
         
         clock.tick(60) 
         pygame.display.flip()
