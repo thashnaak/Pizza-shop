@@ -1,4 +1,5 @@
 import pygame
+import subprocess
 import os
 import sys
 
@@ -9,12 +10,13 @@ subtitle_font = pygame.font.Font(None, 40)
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 600))
+clock = pygame.time.Clock()
 pygame.display.set_caption("Welcome to Fraction Pizzeria ")
 done = False
 
 bg_clr = (151, 65, 31)
 
-text_clr = (255, 238, 170)
+text_clr = (216, 104, 40)
 rect_width = 400
 rect_height = 300
 info = pygame.Rect(0, 0, rect_width, rect_height)
@@ -32,7 +34,7 @@ title_rect.top = 50
 
 
 #SUBtitle
-subtitle_surface = subtitle_font.render ("Tap on “NEXT” when you are ready to move on!", True, text_clr)
+subtitle_surface = subtitle_font.render ("Tap on “NEXT” when you are ready to move on to the menu!", True, text_clr)
 subtitle_rect = subtitle_surface.get_rect()
 
 # Position the subtitle
@@ -74,6 +76,21 @@ text_rect5.centerx = info.centerx
 text_rect5.top = info.centery + 60    # 60 pixels below the middle
 
 
+#BUTTON ------------------------------------------------------------------------------------------
+btn_width, btn_height = 200, 60
+button_rect = pygame.Rect(0, 0, btn_width, btn_height)
+# Position button 
+button_rect.centerx = screen.get_rect().centerx + 300 
+button_rect.centery = info.centery + 80
+
+btn_color = (216, 104, 40)        
+btn_text_color = (151, 65, 31)     
+
+btn_font = pygame.font.Font(None, 40) 
+btn_surface = btn_font.render("NEXT", True, btn_text_color)
+btn_text_rect = btn_surface.get_rect()
+btn_text_rect.center = button_rect.center
+
 while not done:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -91,6 +108,17 @@ while not done:
         screen.blit(text_surface3, text_rect3)
         screen.blit(text_surface4, text_rect4)
         screen.blit(text_surface5, text_rect5)
+        
+        if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:  
+                        if button_rect.collidepoint(event.pos):
+                                subprocess.Popen([sys.executable, "menu.py"])
+                                done = True  
+                                
+        pygame.draw.rect(screen, btn_color, button_rect)
+        screen.blit(btn_surface, btn_text_rect)
+        
+        clock.tick(60) 
         pygame.display.flip()
         
 pygame.quit()
