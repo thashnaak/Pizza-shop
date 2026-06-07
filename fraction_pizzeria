@@ -1,0 +1,422 @@
+import pygame
+import subprocess
+import os
+import sys
+
+pygame.font.init()
+font = pygame.font.Font(None, 35)
+title_font = pygame.font.Font(None, 90) 
+subtitle_font = pygame.font.Font(None, 40)
+
+pygame.init()
+screen = pygame.display.set_mode((1000, 600))
+clock = pygame.time.Clock()
+pygame.display.set_caption("Welcome to Fraction Pizzeria ")
+done = False
+
+STATE_TITLE = "title"
+STATE_MENU = "menu"
+STATE_LESSON = "lesson"
+STATE_GAME = "game"
+STATE_QUIZ = "quiz"
+STATE_RESULTS = "results"
+STATE_EXIT = "exit"
+
+current_state = STATE_TITLE
+
+bg_clr = (151, 65, 31)
+title_clr = (216, 104, 40)
+
+text_clr = (216, 104, 40)
+rect_width = 400
+rect_height = 300
+info = pygame.Rect(0, 0, rect_width, rect_height)
+info.center = screen.get_rect().center
+info.centerx -=200   # Makes it move left
+info.centery += 100   # Adding moves it down
+
+#TITLE
+title_surface = title_font.render("Welcome to Fraction Pizzeria!", True, text_clr)
+title_rect = title_surface.get_rect()
+
+# Position the title
+title_rect.centerx = screen.get_rect().centerx  # Center it 
+title_rect.top = 50
+
+#SUBtitle
+subtitle_surface = subtitle_font.render ("Tap on “NEXT” when you are ready to move on to the menu!", True, text_clr)
+subtitle_rect = subtitle_surface.get_rect()
+
+# Position the subtitle
+subtitle_rect.centerx = screen.get_rect().centerx  # Center it 
+subtitle_rect.top = 100
+
+#Work for the in text box --------------------------------------------------------------
+# First line 
+text_surface1 = font.render("Basic Info:", True, (151,65,31)) #CHANGE TO DARKER COLOR
+text_rect1 = text_surface1.get_rect()
+# Second line
+text_surface2 = font.render("Author: Swara and Thashnaa", True, (151,65,31))
+text_rect2 = text_surface2.get_rect()
+# Third line 
+text_surface3 = font.render("Teacher: Ms.Xie", True, (151,65,31))
+text_rect3 = text_surface3.get_rect()
+# Fourth line 
+text_surface4 = font.render("Course code: TEJ 207", True, (151,65,31))
+text_rect4 = text_surface4.get_rect()
+# Fifth line 
+text_surface5 = font.render("Date: June 5 2026", True, (151,65,31))
+text_rect5 = text_surface5.get_rect()
+
+
+# Position the first line
+text_rect1.centerx = info.centerx
+text_rect1.bottom = info.centery - 60  # 60 pixels above the middle
+# Position the second line 
+text_rect2.centerx = info.centerx
+text_rect2.top = info.centery - 30     # 30 pixels above the middle
+# Position the third line 
+text_rect3.centerx = info.centerx
+text_rect3.top = info.centery 
+# Position the fourth line 
+text_rect4.centerx = info.centerx
+text_rect4.top = info.centery + 30     # 30 pixels below the middle
+# Position the fifth line 
+text_rect5.centerx = info.centerx
+text_rect5.top = info.centery + 60    # 60 pixels below the middle
+
+
+#BUTTON ------------------------------------------------------------------------------------------
+next_btn_width, next_btn_height = 200, 60
+next_button_rect = pygame.Rect(0, 0, next_btn_width, next_btn_height)
+# Position button 
+next_button_rect.centerx = screen.get_rect().centerx + 300 
+next_button_rect.centery = info.centery + 80
+
+next_btn_color = (216, 104, 40)        
+next_btn_text_color = (151, 65, 31)     
+
+next_btn_font = pygame.font.Font(None, 40) 
+next_btn_surface = next_btn_font.render("NEXT", True, next_btn_text_color)
+next_btn_text_rect = next_btn_surface.get_rect()
+next_btn_text_rect.center = next_button_rect.center
+
+
+#Pizza image---------------------------------------------------------
+raw_image = pygame.image.load("pizza2.png")
+image_surface = pygame.transform.scale(raw_image, (220, 220))
+image_rect = image_surface.get_rect()
+
+#Aliging the image
+image_rect.centerx = next_button_rect.centerx  
+image_rect.bottom = next_button_rect.top - 20
+
+#MENU Screen---------------------------------------------------------
+
+font = pygame.font.SysFont(None, 48)
+menu_title = font.render("Menu", True, title_clr)
+white = (255, 255, 255)
+
+menu_clr = (255, 238, 170)
+menu = pygame.Rect(300, 80, 400, 500)
+
+red = (216, 40, 40)
+light_red = (245, 73, 73)
+
+green = (103, 162, 29)
+light_green = (144, 217, 52)
+
+yellow = (219, 159, 27)
+light_yellow = (247, 189, 62)
+
+brown = (162, 105, 29)
+light_brown = (199, 134, 48)
+
+light_bgclr = (214, 101, 56)
+
+#Button Code----------------------------------------------------------
+class Button:
+    def __init__(self, text, x, y, width, height, normal_color, hover_color, text_color, font_size=30):
+        self.text = text
+        self.rect = pygame.Rect(x, y, width, height)
+        self.normal_color = normal_color
+        self.hover_color = hover_color
+        self.text_color = text_color
+        
+        # Initialize font and pre-render text
+        self.font = pygame.font.SysFont(None, font_size)
+        self.text_surf = self.font.render(self.text, True, self.text_color)
+        self.text_rect = self.text_surf.get_rect(center=self.rect.center)
+        
+        self.current_color = self.normal_color
+
+    def draw(self, surface):
+        # Render the button background and text onto the screen
+        pygame.draw.rect(surface, self.current_color, self.rect)
+        surface.blit(self.text_surf, self.text_rect)
+
+    def check_hover(self, mouse_pos):
+        # Update button background color based on mouse position
+        if self.rect.collidepoint(mouse_pos):
+            self.current_color = self.hover_color
+        else:
+            self.current_color = self.normal_color
+
+    def is_clicked(self, mouse_pos, event):
+        # Return True if the left mouse button is clicked inside the button boundaries
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if self.rect.collidepoint(mouse_pos):
+                return True
+
+lesson_button = Button(
+    text="Lesson", 
+    x=330, y=200, width=150, height=50, 
+    normal_color=red, hover_color=light_red, text_color=white
+)
+
+game_button = Button(
+    text="Play Game",
+    x=500, y=200, width=150, height=50,
+    normal_color=green, hover_color=light_green, text_color=white
+)
+
+quiz_button = Button(
+    text="Quiz",
+    x=330, y=325, width=150, height=50,
+    normal_color=yellow, hover_color=light_yellow, text_color=white
+)
+
+results_button = Button(
+    text="Results",
+    x=500, y=325, width=150, height=50,
+    normal_color=brown, hover_color=light_brown, text_color=white
+)
+
+exit_button = Button(
+    text="Exit",
+    x=415, y=425, width=150, height=50,
+    normal_color=bg_clr, hover_color=light_bgclr, text_color=white
+)
+
+back_button = Button(
+    text="Back",
+    x=50, y=500, width=150, height=50,
+    normal_color=red, hover_color=light_red,
+    text_color=white
+)
+
+
+#Credits Duration----------------------------------------------------
+text_duration = 20000 
+
+#Thanks Text Duration------------------------------------------------
+thanks_duration = 3000
+
+text_start_time = pygame.time.get_ticks()
+
+while not done:
+    
+    mouse_pos = pygame.mouse.get_pos()
+    
+    current_time = pygame.time.get_ticks()
+    elapsed_time = current_time - text_start_time    
+    
+    screen.fill(bg_clr)
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
+
+#TITLE Screen--------------------------------------------------------
+    
+        if current_state == STATE_TITLE:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if next_button_rect.collidepoint(event.pos):
+                        current_state = STATE_MENU   
+                        
+    if current_state == STATE_TITLE:
+        
+        # title text
+        screen.blit(title_surface, title_rect)        
+        #Subtitle text
+        screen.blit(subtitle_surface, subtitle_rect)        
+        
+        pygame.draw.rect(screen, text_clr, info)
+        screen.blit(text_surface1, text_rect1)
+        screen.blit(text_surface2, text_rect2)
+        screen.blit(text_surface3, text_rect3)
+        screen.blit(text_surface4, text_rect4)
+        screen.blit(text_surface5, text_rect5)
+        
+                                
+        pygame.draw.rect(screen, next_btn_color, next_button_rect)
+        screen.blit(next_btn_surface, next_btn_text_rect)
+        
+        screen.blit(image_surface, image_rect)
+    
+#MENU Screen---------------------------------------------------------
+    
+    elif current_state == STATE_MENU:
+        if lesson_button.is_clicked(mouse_pos, event):
+            current_state = STATE_LESSON
+        elif game_button.is_clicked(mouse_pos, event):
+            current_state = STATE_GAME
+        elif quiz_button.is_clicked(mouse_pos, event):
+            current_state = STATE_QUIZ
+        elif results_button.is_clicked(mouse_pos, event):
+            current_state = STATE_RESULTS
+        elif exit_button.is_clicked(mouse_pos, event):
+            current_state = STATE_EXIT               
+            text_start_time = pygame.time.get_ticks()
+            
+    elif current_state == STATE_LESSON:
+        if back_button.is_clicked(mouse_pos, event):
+            current_state = STATE_MENU    
+    
+    elif current_state == STATE_GAME:
+        if back_button.is_clicked(mouse_pos, event):
+            current_state = STATE_MENU  
+    
+    elif current_state == STATE_QUIZ:
+        if back_button.is_clicked(mouse_pos, event):
+            current_state = STATE_MENU   
+    
+    elif current_state == STATE_RESULTS:
+        if back_button.is_clicked(mouse_pos, event):
+            current_state = STATE_MENU        
+    
+    if current_state == STATE_MENU:
+        screen.blit(menu_title, (450, 20))
+        pygame.draw.rect(screen, menu_clr, menu)
+    
+        lesson_button.check_hover(mouse_pos)
+        lesson_button.draw(screen)
+        
+        game_button.check_hover(mouse_pos)
+        game_button.draw(screen)   
+        
+        quiz_button.check_hover(mouse_pos)
+        quiz_button.draw(screen)   
+        
+        results_button.check_hover(mouse_pos)
+        results_button.draw(screen)     
+        
+        exit_button.check_hover(mouse_pos)
+        exit_button.draw(screen)         
+        
+#LESSON Screen-----------------------------------------------------
+    
+    elif current_state == STATE_LESSON:
+        title = font.render("Lesson", True, white)
+        screen.blit(title, (380, 50))
+    
+        small_font = pygame.font.SysFont(None, 32)        
+
+        rules = [
+        "Insert rules"
+    ]
+
+        for i, rule in enumerate(rules):
+            text = small_font.render(rule, True, white)
+            screen.blit(text, (100, 150 + i * 50))
+    
+        back_button.check_hover(mouse_pos)
+        back_button.draw(screen)
+        
+#GAME Screen--------------------------------------------------------
+    
+    elif current_state == STATE_GAME:
+        title = font.render("Game", True, white)
+        screen.blit(title, (380, 50))
+    
+        small_font = pygame.font.SysFont(None, 32)        
+
+        rules = [
+        "Insert game"
+    ]
+
+        for i, rule in enumerate(rules):
+            text = small_font.render(rule, True, white)
+            screen.blit(text, (100, 150 + i * 50))
+    
+        back_button.check_hover(mouse_pos)
+        back_button.draw(screen)   
+
+#QUIZ Screen----------------------------------------------------------
+    
+    elif current_state == STATE_QUIZ:
+        title = font.render("Quiz", True, white)
+        screen.blit(title, (380, 50))
+    
+        small_font = pygame.font.SysFont(None, 32)        
+
+        rules = [
+        "Insert quiz"
+    ]
+
+        for i, rule in enumerate(rules):
+            text = small_font.render(rule, True, white)
+            screen.blit(text, (100, 150 + i * 50))
+    
+        back_button.check_hover(mouse_pos)
+        back_button.draw(screen)        
+        
+#RESULTS Screen--------------------------------------------------------
+        
+    elif current_state == STATE_RESULTS:
+        title = font.render("Quiz Results", True, white)
+        screen.blit(title, (380, 50))
+    
+        small_font = pygame.font.SysFont(None, 32)        
+
+        rules = [
+        "Insert results"
+    ]
+
+        for i, rule in enumerate(rules):
+            text = small_font.render(rule, True, white)
+            screen.blit(text, (100, 150 + i * 50))
+    
+        back_button.check_hover(mouse_pos)
+        back_button.draw(screen)       
+    
+#EXIT Screen-----------------------------------------------------------
+    
+    elif current_state == STATE_EXIT:
+        elapsed_time = pygame.time.get_ticks() - text_start_time
+
+        credits = [
+            "Insert credits"
+        ]
+    
+        small_font = pygame.font.SysFont(None, 32)
+    
+        if elapsed_time < 20000:
+    
+            title = font.render("Credits", True, white)
+            screen.blit(title, (380, 50))
+    
+            for i, line in enumerate(credits):
+                text = small_font.render(line, True, white)
+                screen.blit(text, (100, 150 + i * 40))
+    
+        elif elapsed_time < 23000:
+    
+            thanks_text = font.render("Thanks for playing!", True, white)
+    
+            x = (1000 - thanks_text.get_width()) // 2
+            y = (600 - thanks_text.get_height()) // 2
+    
+            screen.blit(thanks_text, (x, y))
+    
+        else:
+            done = True    
+    
+    print(current_state)
+    
+    clock.tick(60) 
+    pygame.display.flip()
+        
+pygame.quit()
+sys.exit()
