@@ -87,7 +87,7 @@ next_btn_color = (216, 104, 40)
 next_btn_text_color = (151, 65, 31)     
 
 next_btn_font = pygame.font.Font(None, 40) 
-next_btn_surface = next_btn_font.render("NEXT", True, btn_text_color)
+next_btn_surface = next_btn_font.render("NEXT", True, next_btn_text_color)
 next_btn_text_rect = next_btn_surface.get_rect()
 next_btn_text_rect.center = next_button_rect.center
 
@@ -98,8 +98,8 @@ image_surface = pygame.transform.scale(raw_image, (220, 220))
 image_rect = image_surface.get_rect()
 
 #Aliging the image
-image_rect.centerx = button_rect.centerx  
-image_rect.bottom = button_rect.top - 20 
+image_rect.centerx = next_button_rect.centerx  
+image_rect.bottom = next_button_rect.top - 20 
 while not done:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
