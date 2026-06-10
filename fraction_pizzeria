@@ -4,9 +4,9 @@ import os
 import sys
 
 pygame.font.init()
-font = pygame.font.Font(None, 35)
-title_font = pygame.font.Font(None, 90) 
-subtitle_font = pygame.font.Font(None, 40)
+font = pygame.font.Font("CaveatBrush-Regular.ttf", 35)
+title_font = pygame.font.Font("CaveatBrush-Regular.ttf", 90) 
+subtitle_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40)
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 600))
@@ -25,9 +25,9 @@ STATE_EXIT = "exit"
 current_state = STATE_TITLE
 
 bg_clr = (151, 65, 31)
-title_clr = (216, 104, 40)
+title_clr = (236, 215, 175)
 
-text_clr = (216, 104, 40)
+text_clr = (236, 215, 175)
 rect_width = 400
 rect_height = 300
 info = pygame.Rect(0, 0, rect_width, rect_height)
@@ -49,7 +49,7 @@ subtitle_rect = subtitle_surface.get_rect()
 
 # Position the subtitle
 subtitle_rect.centerx = screen.get_rect().centerx  # Center it 
-subtitle_rect.top = 100
+subtitle_rect.top = 150
 
 #Work for the in text box --------------------------------------------------------------
 # First line 
@@ -93,10 +93,10 @@ next_button_rect = pygame.Rect(0, 0, next_btn_width, next_btn_height)
 next_button_rect.centerx = screen.get_rect().centerx + 300 
 next_button_rect.centery = info.centery + 80
 
-next_btn_color = (216, 104, 40)        
+next_btn_color = (236, 215, 175)        
 next_btn_text_color = (151, 65, 31)     
 
-next_btn_font = pygame.font.Font(None, 40) 
+next_btn_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40) 
 next_btn_surface = next_btn_font.render("NEXT", True, next_btn_text_color)
 next_btn_text_rect = next_btn_surface.get_rect()
 next_btn_text_rect.center = next_button_rect.center
@@ -113,7 +113,7 @@ image_rect.bottom = next_button_rect.top - 20
 
 #MENU Screen---------------------------------------------------------
 
-font = pygame.font.SysFont(None, 48)
+font = pygame.font.Font("CaveatBrush-Regular.ttf", 48)
 menu_title = font.render("Menu", True, title_clr)
 white = (255, 255, 255)
 
@@ -144,7 +144,7 @@ class Button:
         self.text_color = text_color
         
         # Initialize font and pre-render text
-        self.font = pygame.font.SysFont(None, font_size)
+        self.font = pygame.font.Font("CaveatBrush-Regular.ttf", font_size)
         self.text_surf = self.font.render(self.text, True, self.text_color)
         self.text_rect = self.text_surf.get_rect(center=self.rect.center)
         
@@ -311,7 +311,7 @@ while not done:
         title = font.render("Lesson", True, white)
         screen.blit(title, (380, 50))
     
-        small_font = pygame.font.SysFont(None, 32)        
+        small_font = pygame.font.Font("CaveatBrush-Regular.ttf", 32)        
 
         rules = [
         "Insert rules"
@@ -330,7 +330,7 @@ while not done:
         title = font.render("Game", True, white)
         screen.blit(title, (380, 50))
     
-        small_font = pygame.font.SysFont(None, 32)        
+        small_font = pygame.font.Font("CaveatBrush-Regular.ttf", 32)        
 
         rules = [
         "Insert game"
@@ -349,7 +349,7 @@ while not done:
         title = font.render("Quiz", True, white)
         screen.blit(title, (380, 50))
     
-        small_font = pygame.font.SysFont(None, 32)        
+        small_font = pygame.font.Font("CaveatBrush-Regular.ttf", 32)        
 
         rules = [
         "Insert quiz"
@@ -368,7 +368,7 @@ while not done:
         title = font.render("Quiz Results", True, white)
         screen.blit(title, (380, 50))
     
-        small_font = pygame.font.SysFont(None, 32)        
+        small_font = pygame.font.Font("CaveatBrush-Regular.ttf", 32)        
 
         rules = [
         "Insert results"
@@ -390,7 +390,7 @@ while not done:
             "Insert credits"
         ]
     
-        small_font = pygame.font.SysFont(None, 32)
+        small_font = pygame.font.Font("CaveatBrush-Regular.ttf", 32)
     
         if elapsed_time < 20000:
     
