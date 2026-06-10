@@ -1,0 +1,20 @@
+import pygame
+import subprocess
+import os
+import sys
+
+pygame.font.init()
+font = pygame.font.Font("CaveatBrush-Regular.ttf", 35)
+subtitle_font = pygame.font.Font("CaveatBrush-Regular.ttf", 90) 
+
+pygame.init()
+screen = pygame.display.set_mode((1000, 600))
+clock = pygame.time.Clock()
+pygame.display.set_caption("Welcome to Fraction Pizzeria ")
+done = False
+
+bg_clr = (151, 65, 31)
+text_clr = (216, 104, 40)
+
+
+### bg_c1
