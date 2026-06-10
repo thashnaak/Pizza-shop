@@ -16,7 +16,7 @@ done = False
 
 bg_clr = (151, 65, 31)
 
-text_clr = (216, 104, 40)
+text_clr = (236, 215, 175)
 rect_width = 400
 rect_height = 300
 info = pygame.Rect(0, 0, rect_width, rect_height)
@@ -83,7 +83,7 @@ next_button_rect = pygame.Rect(0, 0, next_btn_width, next_btn_height)
 next_button_rect.centerx = screen.get_rect().centerx + 300 
 next_button_rect.centery = info.centery + 80
 
-next_btn_color = (216, 104, 40)        
+next_btn_color = (236, 215, 175)        
 next_btn_text_color = (151, 65, 31)     
 
 next_btn_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40) 
