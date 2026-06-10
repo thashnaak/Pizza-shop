@@ -5,7 +5,7 @@ import sys
 
 pygame.font.init()
 font = pygame.font.Font("CaveatBrush-Regular.ttf", 35)
-subtitle_font = pygame.font.Font("CaveatBrush-Regular.ttf", 90) 
+title_font = pygame.font.Font("CaveatBrush-Regular.ttf", 80) 
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 600))
@@ -14,7 +14,38 @@ pygame.display.set_caption("Welcome to Fraction Pizzeria ")
 done = False
 
 bg_clr = (151, 65, 31)
-text_clr = (216, 104, 40)
+text_clr = (236, 215, 175)
 
+#TITLE
+title_surface = title_font.render("How to play?", True, text_clr)
+title_rect = title_surface.get_rect()
 
-### bg_c1
+# Position the title
+title_rect.centerx = screen.get_rect().centerx -250 # move it to the left 
+title_rect.top = 50
+
+#TITLE 2
+title2_surface = title_font.render("Fraction review", True, text_clr)
+title2_rect = title_surface.get_rect()
+
+# Position the title
+title2_rect.centerx = screen.get_rect().centerx +200 # move it to the right 
+title2_rect.top = 50
+
+while not done:
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                        done = True
+        screen.fill(bg_clr)
+        
+        # title text
+        screen.blit(title_surface, title_rect) 
+        
+        screen.blit(title2_surface, title2_rect) 
+
+        clock.tick(60) 
+        pygame.display.flip()
+        
+pygame.quit()
+sys.exit()
+
