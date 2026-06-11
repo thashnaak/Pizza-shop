@@ -1,3 +1,20 @@
+import pygame
+import subprocess
+import os
+import sys
+
+pygame.font.init()
+font = pygame.font.Font(None, 35)
+title_font = pygame.font.Font(None, 90) 
+subtitle_font = pygame.font.Font(None, 40)
+
+pygame.init()
+screen = pygame.display.set_mode((1000, 600))
+clock = pygame.time.Clock()
+pygame.display.set_caption("Welcome to Fraction Pizzeria")
+done = False
+
+STATE_TITLE = "title"
 STATE_MENU = "menu"
 STATE_LESSON = "lesson"
 STATE_GAME = "game"
@@ -17,6 +34,9 @@ bg_c2 = pygame.transform.scale(bg_c2, (1000, 600))
 
 bg_c3 = pygame.image.load("bg_c3.png").convert()
 bg_c3 = pygame.transform.scale(bg_c3, (1000, 600))
+
+bg_c5 = pygame.image.load("bg_c5.png").convert()
+bg_c5 = pygame.transform.scale(bg_c5, (1000, 600))
 
 bg_correct = pygame.image.load("bg_correct.png").convert()
 bg_correct = pygame.transform.scale(bg_correct, (1000, 600))
@@ -97,6 +117,26 @@ two_fourths = pygame.image.load("two_fourths.png").convert()
 two_fourths = pygame.transform.scale(two_fourths, (182, 182))
 two_fourths_rect = two_fourths.get_rect(topleft=(200, 375))
 
+two_sixths = pygame.image.load("two_sixths.png").convert()
+two_sixths = pygame.transform.scale(two_sixths, (182, 182))
+two_sixths_rect = two_sixths.get_rect(topleft=(10, 375))
+
+four_eights = pygame.image.load("four_eights.png").convert()
+four_eights = pygame.transform.scale(four_eights, (182, 182))
+four_eights_rect = four_eights.get_rect(topleft=(200, 375))
+
+three_fifths = pygame.image.load("three_fifths.png").convert()
+three_fifths = pygame.transform.scale(three_fifths, (182, 182))
+three_fifths_rect = three_fifths.get_rect(topleft=(395, 375))
+
+three_sixths = pygame.image.load("three_sixths.png").convert()
+three_sixths = pygame.transform.scale(three_sixths, (182, 182))
+three_sixths_rect = three_sixths.get_rect(topleft=(200, 375))
+
+four_sixths = pygame.image.load("four_sixths.png").convert()
+four_sixths = pygame.transform.scale(four_sixths, (182, 182))
+four_sixths_rect = four_sixths.get_rect(topleft=(395, 375))
+
 current_customer = 1
 
 while not done:
@@ -140,6 +180,22 @@ while not done:
                             elif two_fourths_rect.collidepoint(event.pos) or one_fourth_rect.collidepoint(event.pos):
                                 bg_start_time = pygame.time.get_ticks()
                                 ans = "wrong"
+                                
+                        if current_customer == 4:
+                            if four_eights_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "correct"
+                            elif two_sixths_rect.collidepoint(event.pos) or three_fifths_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "wrong"    
+                                
+                        if current_customer == 5:
+                            if four_sixths_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "correct"
+                            elif two_sixths_rect.collidepoint(event.pos) or three_sixths_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "wrong"                                    
                                 
         #Customer 1------------------
         
@@ -219,6 +275,54 @@ while not done:
             if pygame.time.get_ticks() - bg_start_time >= 2000:
                 current_customer = 4
                 ans = None     
+        
+            #Customer 4----------------------------
+            
+    elif current_customer == 4:
+        
+        screen.blit(bg_c1, (0, 0))
+        
+        screen.blit(two_sixths, two_sixths_rect)
+        screen.blit(four_eights, four_eights_rect)
+        screen.blit(three_fifths, three_fifths_rect)  
+        
+        if ans == "correct":
+            screen.blit(bg_correct, (0, 0))
+
+            if pygame.time.get_ticks() - bg_start_time >= 2000:
+                current_customer = 5
+                ans = None
+
+        elif ans == "wrong":
+            screen.blit(bg_wrong, (0, 0))
+
+            if pygame.time.get_ticks() - bg_start_time >= 2000:
+                current_customer = 5
+                ans = None             
+
+            #Customer 5---------------------------
+            
+    elif current_customer == 5:
+        
+        screen.blit(bg_c5, (0, 0))
+        
+        screen.blit(two_sixths, two_sixths_rect)
+        screen.blit(three_sixths, three_sixths_rect)
+        screen.blit(four_sixths, four_sixths_rect)  
+        
+        if ans == "correct":
+            screen.blit(bg_correct, (0, 0))
+
+            if pygame.time.get_ticks() - bg_start_time >= 2000:
+                current_customer = 5
+                ans = None
+
+        elif ans == "wrong":
+            screen.blit(bg_wrong, (0, 0))
+
+            if pygame.time.get_ticks() - bg_start_time >= 2000:
+                current_customer = 5
+                ans = None                     
 
     pygame.display.flip()
     clock.tick(60)
