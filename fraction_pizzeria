@@ -237,7 +237,7 @@ lesson_sub_rect4 = lesson_sub_line4.get_rect(topleft=(50, 300))
 
 
 # Game img
-lesson_image_surface = pygame.image.load("pizza2.jpg") 
+lesson_image_surface = pygame.image.load("pizza2.png") 
 
 #Size it
 lesson_image_surface = pygame.transform.scale(lesson_image_surface, (300, 200))
