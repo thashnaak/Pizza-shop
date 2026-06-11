@@ -4,7 +4,7 @@ import os
 import sys
 
 pygame.font.init()
-font = pygame.font.Font("CaveatBrush-Regular.ttf", 25)
+font = pygame.font.Font("CaveatBrush-Regular.ttf", 20)
 title_font = pygame.font.Font("CaveatBrush-Regular.ttf", 80) 
 
 pygame.init()
@@ -15,6 +15,7 @@ done = False
 
 bg_clr = (151, 65, 31)
 text_clr = (236, 215, 175)
+imp_clr = (216, 104, 40)
 
 # Verticle Line
 line_clr = text_clr 
@@ -22,28 +23,28 @@ line_x = screen.get_width() // 2  # Horizontal center (500 pixels from the left)
 line_thickness = 5
 
 #TITLE
-title_surface = title_font.render("How to play?", True, text_clr)
-title_rect = title_surface.get_rect()
+lesson_title_surface = title_font.render("How to play?", True, imp_clr)
+lesson_title_rect = lesson_title_surface.get_rect()
 
 # Position the title
-title_rect.centerx = screen.get_rect().centerx -250 # move it to the left 
-title_rect.top = 50
+lesson_title_rect.centerx = screen.get_rect().centerx -250 # move it to the left 
+lesson_title_rect.top = 50
 
 # Spliting long sentence into 4  text lines
-sub_line1 = font.render("A customer will ask for a fraction of pizza. Then", True, text_clr)
-sub_line2 = font.render("you’ll have THREE options of pizza (which we cut", True, text_clr)
-sub_line3 = font.render("for you) to pick from! Click on the correct pizza!", True, text_clr)
-sub_line4 = font.render(" Here is how the game looks when you get started ", True, text_clr) #change text color maybe
+lesson_sub_line1 = font.render("A customer will ask for a fraction of pizza. Then you’ll have", True, text_clr)
+lesson_sub_line2 = font.render("THREE options of pizza (which we cut for you) to pick from", True, text_clr)
+lesson_sub_line3 = font.render("Click on the correct pizza! When clicked you can't change it.", True, text_clr)
+lesson_sub_line4 = font.render(" Here is how the game looks when you get started ", True, imp_clr) #change text color maybe
 
 # Position each line manually (Left side margin = 40, spaced out vertically by 40 pixels)
-sub_rect1 = sub_line1.get_rect(topleft=(40, 180))
-sub_rect2 = sub_line2.get_rect(topleft=(40, 220))
-sub_rect3 = sub_line3.get_rect(topleft=(40, 260))
-sub_rect4 = sub_line4.get_rect(topleft=(40, 300))
+lesson_sub_rect1 = lesson_sub_line1.get_rect(topleft=(50, 180))
+lesson_sub_rect2 = lesson_sub_line2.get_rect(topleft=(50, 220))
+lesson_sub_rect3 = lesson_sub_line3.get_rect(topleft=(50, 260))
+lesson_sub_rect4 = lesson_sub_line4.get_rect(topleft=(50, 300))
 
 
 # Game img
-image_surface = pygame.image.load("game_bg.png") 
+image_surface = pygame.image.load("pizza2.jpg") 
 
 #Size it
 image_surface = pygame.transform.scale(image_surface, (300, 200))
@@ -54,41 +55,41 @@ image_rect.centerx = screen.get_rect().centerx - 250
 image_rect.top = 360 
 
 #TITLE 2
-title2_surface = title_font.render("Fraction review!", True, text_clr)
-title2_rect = title_surface.get_rect()
+lesson_title2_surface = title_font.render("Fraction review!", True, imp_clr)
+lesson_title2_rect = lesson_title_surface.get_rect()
 
 # Position the title
-title2_rect.centerx = screen.get_rect().centerx +200 # move it to the right 
-title2_rect.top = 50
+lesson_title2_rect.centerx = screen.get_rect().centerx +200 # move it to the right 
+lesson_title2_rect.top = 50
 
 #Text under title 2
-sub2_line1 = font.render("What is a fraction?", True, text_clr) # Change color
-sub2_line2 = font.render("  ", True, text_clr)
-sub2_line3 = font.render("Numerator: The top number, counts how many parts", True, text_clr)
-sub2_line4 = font.render("of the whole are shown.", True, text_clr)
-sub2_line5 = font.render("  ", True, text_clr)
-sub2_line6 = font.render("Denominator: The bottom number, is the number of", True, text_clr)
-sub2_line7 = font.render("pizza slices in total.", True, text_clr)
+lesson_sub2_line1 = font.render("What is a fraction?", True, imp_clr) # Change color
+lesson_sub2_line2 = font.render("  ", True, text_clr)
+lesson_sub2_line3 = font.render("Numerator: The top number, counts how many parts", True, text_clr)
+lesson_sub2_line4 = font.render("of the whole are shown.", True, text_clr)
+lesson_sub2_line5 = font.render("  ", True, text_clr)
+lesson_sub2_line6 = font.render("Denominator: The bottom number, is the number of", True, text_clr)
+lesson_sub2_line7 = font.render("pizza slices in total.", True, text_clr)
 
-sub2_line8 = font.render("Types of fractions:", True, text_clr)
-sub2_line9 = font.render("Simplifying: Reduce by dividing both the top and", True, text_clr)
-sub2_line10 = font.render("bottom by their largest shared factor. EX. 2/8 = 1/4", True, text_clr)
-sub2_line11 = font.render("Mixed: A whole number + proper fraction. EX. 1 1/4", True, text_clr)
-sub2_line12 = font.render("Equivalent: Look different but have the exact same", True, text_clr)
-sub2_line13 = font.render("value. EX. (1/2 , 2/4)", True, text_clr)
+lesson_sub2_line8 = font.render("Types of fractions:", True, imp_clr)
+lesson_sub2_line9 = font.render("SIMPLIFYING: Reduce by dividing both the top and", True, text_clr)
+lesson_sub2_line10 = font.render("bottom by their largest shared factor. EX. 2/8 = 1/4", True, text_clr)
+lesson_sub2_line11 = font.render("MIXED: A whole number + proper fraction. EX. 1 1/4", True, text_clr)
+lesson_sub2_line12 = font.render("EQUIVALENT: Look different but have the exact same", True, text_clr)
+lesson_sub2_line13 = font.render("value. EX. (1/2 , 2/4)", True, text_clr)
 # Position each line manually (Left side margin = 540, spaced out vertically by 40 pixels)
-sub2_rect1 = sub2_line1.get_rect(topleft=(540, 160))
-sub2_rect3 = sub2_line3.get_rect(topleft=(540, 195))
-sub2_rect4 = sub2_line4.get_rect(topleft=(540, 230))
-sub2_rect6 = sub2_line6.get_rect(topleft=(540, 265))
-sub2_rect7 = sub2_line7.get_rect(topleft=(540, 300))
+lesson_sub2_rect1 = lesson_sub2_line1.get_rect(topleft=(540, 160))
+lesson_sub2_rect3 = lesson_sub2_line3.get_rect(topleft=(540, 195))
+lesson_sub2_rect4 = lesson_sub2_line4.get_rect(topleft=(540, 230))
+lesson_sub2_rect6 = lesson_sub2_line6.get_rect(topleft=(540, 265))
+lesson_sub2_rect7 = lesson_sub2_line7.get_rect(topleft=(540, 300))
 
-sub2_rect8 = sub2_line8.get_rect(topleft=(540, 345))
-sub2_rect9 = sub2_line9.get_rect(topleft=(540, 380))
-sub2_rect10 = sub2_line10.get_rect(topleft=(540, 415))
-sub2_rect11 = sub2_line11.get_rect(topleft=(540, 450))
-sub2_rect12 = sub2_line12.get_rect(topleft=(540, 485))
-sub2_rect13 = sub2_line13.get_rect(topleft=(540, 520))
+lesson_sub2_rect8 = lesson_sub2_line8.get_rect(topleft=(540, 345))
+lesson_sub2_rect9 = lesson_sub2_line9.get_rect(topleft=(540, 380))
+lesson_sub2_rect10 = lesson_sub2_line10.get_rect(topleft=(540, 415))
+lesson_sub2_rect11 = lesson_sub2_line11.get_rect(topleft=(540, 450))
+lesson_sub2_rect12 = lesson_sub2_line12.get_rect(topleft=(540, 485))
+lesson_sub2_rect13 = lesson_sub2_line13.get_rect(topleft=(540, 520))
 
 
 while not done:
@@ -98,31 +99,31 @@ while not done:
         screen.fill(bg_clr)
         
         # title text 1
-        screen.blit(title_surface, title_rect) 
+        screen.blit(lesson_title_surface, lesson_title_rect) 
         #subtile 1
-        screen.blit(sub_line1, sub_rect1)
-        screen.blit(sub_line2, sub_rect2)
-        screen.blit(sub_line3, sub_rect3)
-        screen.blit(sub_line4, sub_rect4)
+        screen.blit(lesson_sub_line1, lesson_sub_rect1)
+        screen.blit(lesson_sub_line2, lesson_sub_rect2)
+        screen.blit(lesson_sub_line3, lesson_sub_rect3)
+        screen.blit(lesson_sub_line4,lesson_sub_rect4)
         
         #Image
         screen.blit(image_surface, image_rect)
         
         #Title text 2
-        screen.blit(title2_surface, title2_rect) 
+        screen.blit(lesson_title2_surface, lesson_title2_rect) 
         
         #Subtitle 2
-        screen.blit(sub2_line1, sub2_rect1)
-        screen.blit(sub2_line3, sub2_rect3)
-        screen.blit(sub2_line4, sub2_rect4)
-        screen.blit(sub2_line6, sub2_rect6)  
-        screen.blit(sub2_line7, sub2_rect7)
-        screen.blit(sub2_line8, sub2_rect8)
-        screen.blit(sub2_line9, sub2_rect9) 
-        screen.blit(sub2_line10, sub2_rect10)  
-        screen.blit(sub2_line11, sub2_rect11)  
-        screen.blit(sub2_line12, sub2_rect12)  
-        screen.blit(sub2_line13, sub2_rect13)         
+        screen.blit(lesson_sub2_line1, lesson_sub2_rect1)
+        screen.blit(lesson_sub2_line3, lesson_sub2_rect3)
+        screen.blit(lesson_sub2_line4, lesson_sub2_rect4)
+        screen.blit(lesson_sub2_line6, lesson_sub2_rect6)  
+        screen.blit(lesson_sub2_line7, lesson_sub2_rect7)
+        screen.blit(lesson_sub2_line8, lesson_sub2_rect8)
+        screen.blit(lesson_sub2_line9, lesson_sub2_rect9) 
+        screen.blit(lesson_sub2_line10, lesson_sub2_rect10)  
+        screen.blit(lesson_sub2_line11, lesson_sub2_rect11)  
+        screen.blit(lesson_sub2_line12, lesson_sub2_rect12)  
+        screen.blit(lesson_sub2_line13, lesson_sub2_rect13)         
         
         #Horizantal line
         pygame.draw.line(screen, line_clr, (line_x, 0), (line_x, screen.get_height()), width=line_thickness)
