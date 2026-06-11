@@ -4,7 +4,7 @@ import os
 import sys
 
 pygame.font.init()
-font = pygame.font.Font("CaveatBrush-Regular.ttf", 35)
+font = pygame.font.Font("CaveatBrush-Regular.ttf", 25)
 title_font = pygame.font.Font("CaveatBrush-Regular.ttf", 80) 
 
 pygame.init()
@@ -16,6 +16,11 @@ done = False
 bg_clr = (151, 65, 31)
 text_clr = (236, 215, 175)
 
+# Verticle Line
+line_clr = text_clr 
+line_x = screen.get_width() // 2  # Horizontal center (500 pixels from the left)
+line_thickness = 5
+
 #TITLE
 title_surface = title_font.render("How to play?", True, text_clr)
 title_rect = title_surface.get_rect()
@@ -24,13 +29,67 @@ title_rect = title_surface.get_rect()
 title_rect.centerx = screen.get_rect().centerx -250 # move it to the left 
 title_rect.top = 50
 
+# Spliting long sentence into 4  text lines
+sub_line1 = font.render("A customer will ask for a fraction of pizza. Then", True, text_clr)
+sub_line2 = font.render("you’ll have THREE options of pizza (which we cut", True, text_clr)
+sub_line3 = font.render("for you) to pick from! Click on the correct pizza!", True, text_clr)
+sub_line4 = font.render(" Here is how the game looks when you get started ", True, text_clr) #change text color maybe
+
+# Position each line manually (Left side margin = 40, spaced out vertically by 40 pixels)
+sub_rect1 = sub_line1.get_rect(topleft=(40, 180))
+sub_rect2 = sub_line2.get_rect(topleft=(40, 220))
+sub_rect3 = sub_line3.get_rect(topleft=(40, 260))
+sub_rect4 = sub_line4.get_rect(topleft=(40, 300))
+
+
+# Game img
+image_surface = pygame.image.load("game_bg.png") 
+
+#Size it
+image_surface = pygame.transform.scale(image_surface, (300, 200))
+
+image_rect = image_surface.get_rect()
+# Positoning it
+image_rect.centerx = screen.get_rect().centerx - 250
+image_rect.top = 360 
+
 #TITLE 2
-title2_surface = title_font.render("Fraction review", True, text_clr)
+title2_surface = title_font.render("Fraction review!", True, text_clr)
 title2_rect = title_surface.get_rect()
 
 # Position the title
 title2_rect.centerx = screen.get_rect().centerx +200 # move it to the right 
 title2_rect.top = 50
+
+#Text under title 2
+sub2_line1 = font.render("What is a fraction?", True, text_clr) # Change color
+sub2_line2 = font.render("  ", True, text_clr)
+sub2_line3 = font.render("Numerator: The top number, counts how many parts", True, text_clr)
+sub2_line4 = font.render("of the whole are shown.", True, text_clr)
+sub2_line5 = font.render("  ", True, text_clr)
+sub2_line6 = font.render("Denominator: The bottom number, is the number of", True, text_clr)
+sub2_line7 = font.render("pizza slices in total.", True, text_clr)
+
+sub2_line8 = font.render("Types of fractions:", True, text_clr)
+sub2_line9 = font.render("Simplifying: Reduce by dividing both the top and", True, text_clr)
+sub2_line10 = font.render("bottom by their largest shared factor. EX. 2/8 = 1/4", True, text_clr)
+sub2_line11 = font.render("Mixed: A whole number + proper fraction. EX. 1 1/4", True, text_clr)
+sub2_line12 = font.render("Equivalent: Look different but have the exact same", True, text_clr)
+sub2_line13 = font.render("value. EX. (1/2 , 2/4)", True, text_clr)
+# Position each line manually (Left side margin = 540, spaced out vertically by 40 pixels)
+sub2_rect1 = sub2_line1.get_rect(topleft=(540, 160))
+sub2_rect3 = sub2_line3.get_rect(topleft=(540, 195))
+sub2_rect4 = sub2_line4.get_rect(topleft=(540, 230))
+sub2_rect6 = sub2_line6.get_rect(topleft=(540, 265))
+sub2_rect7 = sub2_line7.get_rect(topleft=(540, 300))
+
+sub2_rect8 = sub2_line8.get_rect(topleft=(540, 345))
+sub2_rect9 = sub2_line9.get_rect(topleft=(540, 380))
+sub2_rect10 = sub2_line10.get_rect(topleft=(540, 415))
+sub2_rect11 = sub2_line11.get_rect(topleft=(540, 450))
+sub2_rect12 = sub2_line12.get_rect(topleft=(540, 485))
+sub2_rect13 = sub2_line13.get_rect(topleft=(540, 520))
+
 
 while not done:
         for event in pygame.event.get():
@@ -38,14 +97,40 @@ while not done:
                         done = True
         screen.fill(bg_clr)
         
-        # title text
+        # title text 1
         screen.blit(title_surface, title_rect) 
+        #subtile 1
+        screen.blit(sub_line1, sub_rect1)
+        screen.blit(sub_line2, sub_rect2)
+        screen.blit(sub_line3, sub_rect3)
+        screen.blit(sub_line4, sub_rect4)
         
+        #Image
+        screen.blit(image_surface, image_rect)
+        
+        #Title text 2
         screen.blit(title2_surface, title2_rect) 
+        
+        #Subtitle 2
+        screen.blit(sub2_line1, sub2_rect1)
+        screen.blit(sub2_line3, sub2_rect3)
+        screen.blit(sub2_line4, sub2_rect4)
+        screen.blit(sub2_line6, sub2_rect6)  
+        screen.blit(sub2_line7, sub2_rect7)
+        screen.blit(sub2_line8, sub2_rect8)
+        screen.blit(sub2_line9, sub2_rect9) 
+        screen.blit(sub2_line10, sub2_rect10)  
+        screen.blit(sub2_line11, sub2_rect11)  
+        screen.blit(sub2_line12, sub2_rect12)  
+        screen.blit(sub2_line13, sub2_rect13)         
+        
+        #Horizantal line
+        pygame.draw.line(screen, line_clr, (line_x, 0), (line_x, screen.get_height()), width=line_thickness)
+        
+
 
         clock.tick(60) 
         pygame.display.flip()
         
 pygame.quit()
 sys.exit()
-
