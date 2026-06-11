@@ -7,6 +7,8 @@ pygame.font.init()
 font = pygame.font.Font("CaveatBrush-Regular.ttf", 35)
 title_font = pygame.font.Font("CaveatBrush-Regular.ttf", 90) 
 subtitle_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40)
+lesson_font = pygame.font.Font("CaveatBrush-Regular.ttf", 20)
+lesson_title_font = pygame.font.Font("CaveatBrush-Regular.ttf", 80) 
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 600))
@@ -26,6 +28,7 @@ current_state = STATE_TITLE
 
 bg_clr = (151, 65, 31)
 title_clr = (236, 215, 175)
+imp_clr = (216, 104, 40)
 
 text_clr = (236, 215, 175)
 rect_width = 400
@@ -207,21 +210,80 @@ back_button = Button(
 
 #LESSON Screen-------------------------------------------------------
 
+# Verticle Line
+line_clr = text_clr 
+line_x = screen.get_width() // 2  # Horizontal center (500 pixels from the left)
+line_thickness = 5
+
 #TITLE
-title_surface = title_font.render("How to play?", True, text_clr)
-title_rect = title_surface.get_rect()
+lesson_title_surface = lesson_title_font.render("How to play?", True, imp_clr)
+lesson_title_rect = lesson_title_surface.get_rect()
 
 # Position the title
-title_rect.centerx = screen.get_rect().centerx -250 # move it to the left 
-title_rect.top = 50
+lesson_title_rect.centerx = screen.get_rect().centerx -250 # move it to the left 
+lesson_title_rect.top = 50
+
+# Spliting long sentence into 4  text lines
+lesson_sub_line1 = lesson_font.render("A customer will ask for a fraction of pizza. Then you’ll have", True, text_clr)
+lesson_sub_line2 = lesson_font.render("THREE options of pizza (which we cut for you) to pick from", True, text_clr)
+lesson_sub_line3 = lesson_font.render("Click on the correct pizza! When clicked you can't change it.", True, text_clr)
+lesson_sub_line4 = lesson_font.render(" Here is how the game looks when you get started ", True, imp_clr) #change text color maybe
+
+# Position each line manually (Left side margin = 40, spaced out vertically by 40 pixels)
+lesson_sub_rect1 = lesson_sub_line1.get_rect(topleft=(50, 180))
+lesson_sub_rect2 = lesson_sub_line2.get_rect(topleft=(50, 220))
+lesson_sub_rect3 = lesson_sub_line3.get_rect(topleft=(50, 260))
+lesson_sub_rect4 = lesson_sub_line4.get_rect(topleft=(50, 300))
+
+
+# Game img
+image_surface = pygame.image.load("pizza2.jpg") 
+
+#Size it
+image_surface = pygame.transform.scale(image_surface, (300, 200))
+
+image_rect = image_surface.get_rect()
+# Positoning it
+image_rect.centerx = screen.get_rect().centerx - 250
+image_rect.top = 360 
 
 #TITLE 2
-title2_surface = title_font.render("Fraction review", True, text_clr)
-title2_rect = title_surface.get_rect()
+lesson_title2_surface = lesson_title_font.render("Fraction review!", True, imp_clr)
+lesson_title2_rect = lesson_title_surface.get_rect()
 
 # Position the title
-title2_rect.centerx = screen.get_rect().centerx +200 # move it to the right 
-title2_rect.top = 50
+lesson_title2_rect.centerx = screen.get_rect().centerx +200 # move it to the right 
+lesson_title2_rect.top = 50
+
+#Text under title 2
+lesson_sub2_line1 = lesson_font.render("What is a fraction?", True, imp_clr) # Change color
+lesson_sub2_line2 = lesson_font.render("  ", True, text_clr)
+lesson_sub2_line3 = lesson_font.render("Numerator: The top number, counts how many parts", True, text_clr)
+lesson_sub2_line4 = lesson_font.render("of the whole are shown.", True, text_clr)
+lesson_sub2_line5 = lesson_font.render("  ", True, text_clr)
+lesson_sub2_line6 = lesson_font.render("Denominator: The bottom number, is the number of", True, text_clr)
+lesson_sub2_line7 = lesson_font.render("pizza slices in total.", True, text_clr)
+
+lesson_sub2_line8 = lesson_font.render("Types of fractions:", True, imp_clr)
+lesson_sub2_line9 = lesson_font.render("SIMPLIFYING: Reduce by dividing both the top and", True, text_clr)
+lesson_sub2_line10 = lesson_font.render("bottom by their largest shared factor. EX. 2/8 = 1/4", True, text_clr)
+lesson_sub2_line11 = lesson_font.render("MIXED: A whole number + proper fraction. EX. 1 1/4", True, text_clr)
+lesson_sub2_line12 = lesson_font.render("EQUIVALENT: Look different but have the exact same", True, text_clr)
+lesson_sub2_line13 = lesson_font.render("value. EX. (1/2 , 2/4)", True, text_clr)
+
+# Position each line manually (Left side margin = 540, spaced out vertically by 40 pixels)
+lesson_sub2_rect1 = lesson_sub2_line1.get_rect(topleft=(540, 160))
+lesson_sub2_rect3 = lesson_sub2_line3.get_rect(topleft=(540, 195))
+lesson_sub2_rect4 = lesson_sub2_line4.get_rect(topleft=(540, 230))
+lesson_sub2_rect6 = lesson_sub2_line6.get_rect(topleft=(540, 265))
+lesson_sub2_rect7 = lesson_sub2_line7.get_rect(topleft=(540, 300))
+
+lesson_sub2_rect8 = lesson_sub2_line8.get_rect(topleft=(540, 345))
+lesson_sub2_rect9 = lesson_sub2_line9.get_rect(topleft=(540, 380))
+lesson_sub2_rect10 = lesson_sub2_line10.get_rect(topleft=(540, 415))
+lesson_sub2_rect11 = lesson_sub2_line11.get_rect(topleft=(540, 450))
+lesson_sub2_rect12 = lesson_sub2_line12.get_rect(topleft=(540, 485))
+lesson_sub2_rect13 = lesson_sub2_line13.get_rect(topleft=(540, 520))
 
 #GAME Screen---------------------------------------------------------
 
@@ -376,12 +438,37 @@ while not done:
     
     elif current_state == STATE_LESSON:
         
-        screen.fill(bg_clr)
+         screen.fill(bg_clr)
         
-        # title text
-        screen.blit(title_surface, title_rect) 
+        # title text 1
+        screen.blit(lesson_title_surface, lesson_title_rect) 
+        #subtile 1
+        screen.blit(lesson_sub_line1, lesson_sub_rect1)
+        screen.blit(lesson_sub_line2, lesson_sub_rect2)
+        screen.blit(lesson_sub_line3, lesson_sub_rect3)
+        screen.blit(lesson_sub_line4,lesson_sub_rect4)
         
-        screen.blit(title2_surface, title2_rect) 
+        #Image
+        screen.blit(image_surface, image_rect)
+        
+        #Title text 2
+        screen.blit(lesson_title2_surface, lesson_title2_rect) 
+        
+        #Subtitle 2
+        screen.blit(lesson_sub2_line1, lesson_sub2_rect1)
+        screen.blit(lesson_sub2_line3, lesson_sub2_rect3)
+        screen.blit(lesson_sub2_line4, lesson_sub2_rect4)
+        screen.blit(lesson_sub2_line6, lesson_sub2_rect6)  
+        screen.blit(lesson_sub2_line7, lesson_sub2_rect7)
+        screen.blit(lesson_sub2_line8, lesson_sub2_rect8)
+        screen.blit(lesson_sub2_line9, lesson_sub2_rect9) 
+        screen.blit(lesson_sub2_line10, lesson_sub2_rect10)  
+        screen.blit(lesson_sub2_line11, lesson_sub2_rect11)  
+        screen.blit(lesson_sub2_line12, lesson_sub2_rect12)  
+        screen.blit(lesson_sub2_line13, lesson_sub2_rect13)         
+        
+        #Horizantal line
+        pygame.draw.line(screen, line_clr, (line_x, 0), (line_x, screen.get_height()), width=line_thickness)
     
         back_button.check_hover(mouse_pos)
         back_button.draw(screen)
