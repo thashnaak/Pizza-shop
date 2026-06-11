@@ -237,15 +237,15 @@ lesson_sub_rect4 = lesson_sub_line4.get_rect(topleft=(50, 300))
 
 
 # Game img
-image_surface = pygame.image.load("game_bg.png") 
+lesson_image_surface = pygame.image.load("pizza2.jpg") 
 
 #Size it
-image_surface = pygame.transform.scale(image_surface, (300, 200))
+lesson_image_surface = pygame.transform.scale(lesson_image_surface, (300, 200))
 
-image_rect = image_surface.get_rect()
+lesson_image_rect = lesson_image_surface.get_rect()
 # Positoning it
-image_rect.centerx = screen.get_rect().centerx - 250
-image_rect.top = 360 
+lesson_image_rect.centerx = screen.get_rect().centerx - 250
+lesson_image_rect.top = 360 
 
 #TITLE 2
 lesson_title2_surface = lesson_title_font.render("Fraction review!", True, imp_clr)
@@ -438,7 +438,7 @@ while not done:
     
     elif current_state == STATE_LESSON:
         
-         screen.fill(bg_clr)
+        screen.fill(bg_clr)
         
         # title text 1
         screen.blit(lesson_title_surface, lesson_title_rect) 
@@ -449,7 +449,7 @@ while not done:
         screen.blit(lesson_sub_line4,lesson_sub_rect4)
         
         #Image
-        screen.blit(image_surface, image_rect)
+        screen.blit(lesson_image_surface, lesson_image_rect)
         
         #Title text 2
         screen.blit(lesson_title2_surface, lesson_title2_rect) 
