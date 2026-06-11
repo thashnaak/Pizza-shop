@@ -205,6 +205,73 @@ back_button = Button(
     text_color=white
 )
 
+#LESSON Screen-------------------------------------------------------
+
+#TITLE
+title_surface = title_font.render("How to play?", True, text_clr)
+title_rect = title_surface.get_rect()
+
+# Position the title
+title_rect.centerx = screen.get_rect().centerx -250 # move it to the left 
+title_rect.top = 50
+
+#TITLE 2
+title2_surface = title_font.render("Fraction review", True, text_clr)
+title2_rect = title_surface.get_rect()
+
+# Position the title
+title2_rect.centerx = screen.get_rect().centerx +200 # move it to the right 
+title2_rect.top = 50
+
+#GAME Screen---------------------------------------------------------
+
+#Backgrounds
+
+bg_c1 = pygame.image.load("bg_c1.png").convert()
+bg_c1 = pygame.transform.scale(bg_c1, (1000, 600))
+
+bg_c2 = pygame.image.load("bg_c2.png").convert()
+bg_c2 = pygame.transform.scale(bg_c2, (1000, 600))
+
+bg_c3 = pygame.image.load("bg_c3.png").convert()
+bg_c3 = pygame.transform.scale(bg_c3, (1000, 600))
+
+bg_correct = pygame.image.load("bg_correct.png").convert()
+bg_correct = pygame.transform.scale(bg_correct, (1000, 600))
+bg_correct_duration = 2000
+
+bg_wrong = pygame.image.load("bg_wrong.png").convert()
+bg_wrong = pygame.transform.scale(bg_wrong, (1000, 600))
+bg_wrong_duration = 2000
+
+bg_start_time = pygame.time.get_ticks()
+
+#Pizzas
+
+one_half = pygame.image.load("one_half.png").convert()
+one_half = pygame.transform.scale(one_half, (182, 182))
+one_half_rect = one_half.get_rect(topleft=(10, 375))
+
+one_fourth = pygame.image.load("one_fourth.png").convert()
+one_fourth = pygame.transform.scale(one_fourth, (182, 182))
+one_fourth_rect = one_fourth.get_rect(topleft=(200, 375))
+
+three_fourths = pygame.image.load("three_fourths.png").convert()
+three_fourths = pygame.transform.scale(three_fourths, (180, 180))
+three_fourths_rect = three_fourths.get_rect(topleft=(395, 375))
+
+one_third = pygame.image.load("one_third.png").convert()
+one_third = pygame.transform.scale(one_third, (182, 182))
+one_third_rect = one_third.get_rect(topleft=(10, 375))
+
+two_fourths = pygame.image.load("two_fourths.png").convert()
+two_fourths = pygame.transform.scale(two_fourths, (182, 182))
+two_fourths_rect = two_fourths.get_rect(topleft=(200, 375))
+
+current_customer = 1
+
+#Answer Result
+ans = None
 
 #Credits Duration----------------------------------------------------
 text_duration = 20000 
@@ -308,18 +375,13 @@ while not done:
 #LESSON Screen-----------------------------------------------------
     
     elif current_state == STATE_LESSON:
-        title = font.render("Lesson", True, white)
-        screen.blit(title, (380, 50))
-    
-        small_font = pygame.font.Font("CaveatBrush-Regular.ttf", 32)        
-
-        rules = [
-        "Insert rules"
-    ]
-
-        for i, rule in enumerate(rules):
-            text = small_font.render(rule, True, white)
-            screen.blit(text, (100, 150 + i * 50))
+        
+        screen.fill(bg_clr)
+        
+        # title text
+        screen.blit(title_surface, title_rect) 
+        
+        screen.blit(title2_surface, title2_rect) 
     
         back_button.check_hover(mouse_pos)
         back_button.draw(screen)
@@ -327,24 +389,117 @@ while not done:
 #GAME Screen--------------------------------------------------------
     
     elif current_state == STATE_GAME:
-        title = font.render("Game", True, white)
-        screen.blit(title, (380, 50))
     
-        small_font = pygame.font.Font("CaveatBrush-Regular.ttf", 32)        
-
-        rules = [
-        "Insert game"
-    ]
-
-        for i, rule in enumerate(rules):
-            text = small_font.render(rule, True, white)
-            screen.blit(text, (100, 150 + i * 50))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+        
+                    if current_customer == 1:
+        
+                        if one_half_rect.collidepoint(event.pos):
+                            bg_start_time = pygame.time.get_ticks()
+                            ans = "correct"
+        
+                        elif one_fourth_rect.collidepoint(event.pos) or three_fourths_rect.collidepoint(event.pos):
+                            bg_start_time = pygame.time.get_ticks()
+                            ans = "wrong"   
+                            
+                    if current_customer == 2:
+                        if one_fourth_rect.collidepoint(event.pos):
+                            bg_start_time = pygame.time.get_ticks()
+                            ans = "correct"
+                        elif one_third_rect.collidepoint(event.pos) or one_half_rect.collidepoint(event.pos):
+                            bg_start_time = pygame.time.get_ticks()
+                            ans = "wrong"           
+                    
+                    if current_customer == 3:
+                        if three_fourths_rect.collidepoint(event.pos):
+                            bg_start_time = pygame.time.get_ticks()
+                            ans = "correct"
+                        elif two_fourths_rect.collidepoint(event.pos) or one_fourth_rect.collidepoint(event.pos):
+                            bg_start_time = pygame.time.get_ticks()
+                            ans = "wrong"
+                            
+        #Customer 1------------------
+        
+        if current_customer == 1:
+        
+            screen.blit(bg_c1, (0, 0))
+            
+            screen.blit(one_half, one_half_rect)
+            screen.blit(one_fourth, one_fourth_rect)
+            screen.blit(three_fourths, three_fourths_rect)
+        
+            if ans == "correct":
+                screen.blit(bg_correct, (0, 0))
+        
+                if pygame.time.get_ticks() - bg_start_time >= 2000:
+                    current_customer = 2
+                    ans = None
+        
+            elif ans == "wrong":
+                screen.blit(bg_wrong, (0, 0))
+        
+                if pygame.time.get_ticks() - bg_start_time >= 2000:
+                    current_customer = 2
+                    ans = None         
+                    
+                    
+        #Customer 2-----------------
+                
+        elif current_customer == 2:
+        
+            one_half_rect = one_half.get_rect(topleft=(200, 375))
+            one_fourth_rect = one_fourth.get_rect(topleft=(395, 375))
+            
+            screen.blit(bg_c2, (0, 0))
+            
+            screen.blit(one_third, one_third_rect)
+            screen.blit(one_half, one_half_rect)
+            screen.blit(one_fourth, one_fourth_rect)
+                        
+            if ans == "correct":
+                screen.blit(bg_correct, (0, 0))
+        
+                if pygame.time.get_ticks() - bg_start_time >= 2000:
+                    current_customer = 3
+                    ans = None
+        
+            elif ans == "wrong":
+                screen.blit(bg_wrong, (0, 0))
+        
+                if pygame.time.get_ticks() - bg_start_time >= 2000:
+                    current_customer = 3
+                    ans = None
+                    
+                #Customer 3-----------------------------
+                    
+        elif current_customer == 3:
+            
+            three_fourths_rect = three_fourths.get_rect(topleft=(10, 375))
+            
+            screen.blit(bg_c3, (0, 0))
+            
+            screen.blit(three_fourths, three_fourths_rect)
+            screen.blit(two_fourths, two_fourths_rect)
+            screen.blit(one_fourth, one_fourth_rect)
+        
+                        
+            if ans == "correct":
+                screen.blit(bg_correct, (0, 0))
+        
+                if pygame.time.get_ticks() - bg_start_time >= 2000:
+                    current_customer = 4
+                    ans = None
+        
+            elif ans == "wrong":
+                screen.blit(bg_wrong, (0, 0))
+        
+                if pygame.time.get_ticks() - bg_start_time >= 2000:
+                    current_customer = 4
+                    ans = None             
     
-        back_button.check_hover(mouse_pos)
-        back_button.draw(screen)   
-
-#QUIZ Screen----------------------------------------------------------
-    
+    #QUIZ Screen----------------------------------------------------------
+        
     elif current_state == STATE_QUIZ:
         title = font.render("Quiz", True, white)
         screen.blit(title, (380, 50))
