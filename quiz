@@ -14,8 +14,29 @@ done = False
 
 bg_clr = (151, 65, 31)
 text_clr = (236, 215, 175)
-imp_clr = (216, 104, 40)
 
+
+
+#Colors
+beige = (236, 215, 175)
+orange = (216, 104, 40)
+
+class Button:
+
+    def __init__(self, x, y, width, height, text, action=None):
+        # Create the core rectangle boundary for collision
+        self.rect = pygame.Rect(x, y, width, height)
+        self.text = text
+        self.action = action
+        
+        # Set up fonts and render text surface
+        self.font = pygame.font.Font("CaveatBrush-Regular.ttf", 30) #MAY NOT WORK
+        self.text_surf = self.font.render(self.text, True, orange)
+        # Center the text within the rectangle box
+        self.text_rect = self.text_surf.get_rect(center=self.rect.center)
+    
+        # Dynamic color tracking
+        self.current_color = beige        
 #TITLE
 quiz_title_surface = quiz_font.render("---Advanced fraction quiz!---", True, text_clr)
 quiz_title_rect = quiz_title_surface.get_rect()
