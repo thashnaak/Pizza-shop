@@ -38,6 +38,9 @@ bg_c3 = pygame.transform.scale(bg_c3, (1000, 600))
 bg_c5 = pygame.image.load("bg_c5.png").convert()
 bg_c5 = pygame.transform.scale(bg_c5, (1000, 600))
 
+bg_c6 = pygame.image.load("bg_c6.png").convert()
+bg_c6 = pygame.transform.scale(bg_c6, (1000, 600))
+
 bg_correct = pygame.image.load("bg_correct.png").convert()
 bg_correct = pygame.transform.scale(bg_correct, (1000, 600))
 bg_correct_duration = 2000
@@ -50,10 +53,20 @@ bg_start_time = pygame.time.get_ticks()
 
 ans = None
 
+#Colors
+
 white = (255, 255, 255)
+black = (0, 0, 0)
 
 red = (216, 40, 40)
 light_red = (245, 73, 73)
+
+#Line
+
+game_line_clr = black
+game_line_thickness = 4
+game_line_x = 70
+
 
 class Button:
     def __init__(self, text, x, y, width, height, normal_color, hover_color, text_color, font_size=30):
@@ -137,6 +150,18 @@ four_sixths = pygame.image.load("four_sixths.png").convert()
 four_sixths = pygame.transform.scale(four_sixths, (182, 182))
 four_sixths_rect = four_sixths.get_rect(topleft=(395, 375))
 
+whole = pygame.image.load("whole.png").convert()
+whole = pygame.transform.scale(whole, (100, 100))
+whole_rect = whole.get_rect(topleft=(10, 405))
+
+one_and_half = pygame.image.load("one_and_half.png").convert()
+one_and_half = pygame.transform.scale(one_and_half, (200, 100))
+one_and_half_rect = one_and_half.get_rect(topleft=(130, 407))
+
+two_and_half = pygame.image.load("two_and_half.png").convert()
+two_and_half = pygame.transform.scale(two_and_half, (300, 100))
+two_and_half_rect = two_and_half.get_rect(topleft=(350, 407))
+
 current_customer = 1
 
 while not done:
@@ -196,6 +221,14 @@ while not done:
                             elif two_sixths_rect.collidepoint(event.pos) or three_sixths_rect.collidepoint(event.pos):
                                 bg_start_time = pygame.time.get_ticks()
                                 ans = "wrong"                                    
+                        
+                        if current_customer == 6:
+                            if one_and_half_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "correct"
+                            elif whole_rect.collidepoint(event.pos) or two_and_half_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "wrong"                            
                                 
         #Customer 1------------------
         
@@ -314,15 +347,41 @@ while not done:
             screen.blit(bg_correct, (0, 0))
 
             if pygame.time.get_ticks() - bg_start_time >= 2000:
-                current_customer = 5
+                current_customer = 6
                 ans = None
 
         elif ans == "wrong":
             screen.blit(bg_wrong, (0, 0))
 
             if pygame.time.get_ticks() - bg_start_time >= 2000:
-                current_customer = 5
-                ans = None                     
+                current_customer = 6
+                ans = None        
+                
+                #Customer 6-----------------------
+    elif current_customer == 6:
+        
+        screen.blit(bg_c6, (0, 0))
+
+        screen.blit(whole, whole_rect)
+        screen.blit(one_and_half, one_and_half_rect)
+        screen.blit(two_and_half, two_and_half_rect)     
+        
+        pygame.draw.line(screen, black, (120, 378), (120, 553), game_line_thickness)
+        pygame.draw.line(screen, black, (340, 378), (340, 553), game_line_thickness)
+        
+        if ans == "correct":
+            screen.blit(bg_correct, (0, 0))
+
+            if pygame.time.get_ticks() - bg_start_time >= 2000:
+                current_customer = 6
+                ans = None
+
+        elif ans == "wrong":
+            screen.blit(bg_wrong, (0, 0))
+
+            if pygame.time.get_ticks() - bg_start_time >= 2000:
+                current_customer = 6
+                ans = None                
 
     pygame.display.flip()
     clock.tick(60)
