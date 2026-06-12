@@ -4,8 +4,7 @@ import os
 import sys
 
 pygame.font.init()
-lesson_font = pygame.font.Font("CaveatBrush-Regular.ttf", 20)
-lesson_title_font = pygame.font.Font("CaveatBrush-Regular.ttf", 80) 
+quiz_font = pygame.font.Font("CaveatBrush-Regular.ttf", 80)
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 600))
@@ -16,3 +15,39 @@ done = False
 bg_clr = (151, 65, 31)
 text_clr = (236, 215, 175)
 imp_clr = (216, 104, 40)
+
+#TITLE
+quiz_title_surface = quiz_font.render("---Advanced fraction quiz!---", True, text_clr)
+quiz_title_rect = quiz_title_surface.get_rect()
+
+# Position the title
+quiz_title_rect.centerx = screen.get_rect().centerx  # Center it 
+quiz_title_rect.top = 50
+
+#Question
+question_surface = quiz_font.render ("Simplify: 24/50", True, text_clr)
+question_rect = question_surface.get_rect()
+
+# Position the question
+question_rect.centerx = screen.get_rect().centerx  # Center it 
+question_rect.top = 150
+
+
+while not done:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
+    screen.fill(bg_clr)
+
+    # title text
+    screen.blit(quiz_title_surface, quiz_title_rect)    
+    
+    #Question 
+    screen.blit(question_surface, question_rect)    
+  
+
+    clock.tick(60) 
+    pygame.display.flip()
+
+pygame.quit()
+sys.exit()
