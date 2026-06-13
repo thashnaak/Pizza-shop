@@ -108,7 +108,8 @@ next_btn_text_rect.center = next_button_rect.center
 
 
 #Pizza image---------------------------------------------------------
-raw_image = pygame.image.load("pizza2.png")
+image_path = os.path.join('images', 'pizza2.png')
+raw_image = pygame.image.load(image_path)
 image_surface = pygame.transform.scale(raw_image, (220, 220))
 image_rect = image_surface.get_rect()
 
@@ -239,7 +240,8 @@ lesson_sub_rect4 = lesson_sub_line4.get_rect(topleft=(50, 300))
 
 
 # Game img
-lesson_image_surface = pygame.image.load("game_bg.png") 
+lesson_image_path = os.path.join('images', 'game_bg.png')
+lesson_image_surface = pygame.image.load(lesson_image_path) 
 
 #Size it
 lesson_image_surface = pygame.transform.scale(lesson_image_surface, (310, 200))
@@ -291,26 +293,33 @@ lesson_sub2_rect13 = lesson_sub2_line13.get_rect(topleft=(540, 520))
 
 #Backgrounds
 
-bg_c1 = pygame.image.load("bg_c1.png").convert()
+bg_c1_path = os.path.join('images', 'bg_c1.png')
+bg_c1 = pygame.image.load(bg_c1_path).convert()
 bg_c1 = pygame.transform.scale(bg_c1, (1000, 600))
 
-bg_c2 = pygame.image.load("bg_c2.png").convert()
+bg_c2_path = os.path.join('images', 'bg_c2.png')
+bg_c2 = pygame.image.load(bg_c2_path).convert()
 bg_c2 = pygame.transform.scale(bg_c2, (1000, 600))
 
-bg_c3 = pygame.image.load("bg_c3.png").convert()
+bg_c3_path = os.path.join('images', 'bg_c3.png')
+bg_c3 = pygame.image.load(bg_c3_path).convert()
 bg_c3 = pygame.transform.scale(bg_c3, (1000, 600))
 
-bg_c5 = pygame.image.load("bg_c5.png").convert()
+bg_c5_path = os.path.join('images', 'bg_c5.png')
+bg_c5 = pygame.image.load(bg_c5_path).convert()
 bg_c5 = pygame.transform.scale(bg_c5, (1000, 600))
 
-bg_c6 = pygame.image.load("bg_c6.png").convert()
+bg_c6_path = os.path.join('images', 'bg_c6.png')
+bg_c6 = pygame.image.load(bg_c6_path).convert()
 bg_c6 = pygame.transform.scale(bg_c6, (1000, 600))
 
-bg_correct = pygame.image.load("bg_correct.png").convert()
+bg_correct_path = os.path.join('images', 'bg_correct.png')
+bg_correct = pygame.image.load(bg_correct_path).convert()
 bg_correct = pygame.transform.scale(bg_correct, (1000, 600))
 bg_correct_duration = 2000
 
-bg_wrong = pygame.image.load("bg_wrong.png").convert()
+bg_wrong_path = os.path.join('images', 'bg_wrong.png')
+bg_wrong = pygame.image.load(bg_wrong_path).convert()
 bg_wrong = pygame.transform.scale(bg_wrong, (1000, 600))
 bg_wrong_duration = 2000
 
@@ -318,55 +327,68 @@ bg_start_time = pygame.time.get_ticks()
 
 #Pizzas
 
-one_half = pygame.image.load("one_half.png").convert()
+one_half_path = os.path.join('images', 'one_half.png')
+one_half = pygame.image.load(one_half_path).convert()
 one_half = pygame.transform.scale(one_half, (182, 182))
 one_half_rect = one_half.get_rect(topleft=(10, 375))
 
-one_fourth = pygame.image.load("one_fourth.png").convert()
+one_fourth_path = os.path.join('images', 'one_fourth.png')
+one_fourth = pygame.image.load(one_fourth_path).convert()
 one_fourth = pygame.transform.scale(one_fourth, (182, 182))
 one_fourth_rect = one_fourth.get_rect(topleft=(200, 375))
 
-three_fourths = pygame.image.load("three_fourths.png").convert()
+three_fourths_path = os.path.join('images', 'three_fourths.png')
+three_fourths = pygame.image.load(three_fourths_path).convert()
 three_fourths = pygame.transform.scale(three_fourths, (180, 180))
 three_fourths_rect = three_fourths.get_rect(topleft=(395, 375))
 
-one_third = pygame.image.load("one_third.png").convert()
+one_third_path = os.path.join('images', 'one_third.png')
+one_third = pygame.image.load(one_third_path).convert()
 one_third = pygame.transform.scale(one_third, (182, 182))
 one_third_rect = one_third.get_rect(topleft=(10, 375))
 
-two_fourths = pygame.image.load("two_fourths.png").convert()
+two_fourths_path = os.path.join('images', 'two_fourths.png')
+two_fourths = pygame.image.load(two_fourths_path).convert()
 two_fourths = pygame.transform.scale(two_fourths, (182, 182))
 two_fourths_rect = two_fourths.get_rect(topleft=(200, 375))
 
-two_sixths = pygame.image.load("two_sixths.png").convert()
+two_sixths_path = os.path.join('images', 'two_sixths.png')
+two_sixths = pygame.image.load(two_sixths_path).convert()
 two_sixths = pygame.transform.scale(two_sixths, (182, 182))
 two_sixths_rect = two_sixths.get_rect(topleft=(10, 375))
 
-four_eights = pygame.image.load("four_eights.png").convert()
+four_eights_path = os.path.join('images', 'four_eights.png')
+four_eights = pygame.image.load(four_eights_path).convert()
 four_eights = pygame.transform.scale(four_eights, (182, 182))
 four_eights_rect = four_eights.get_rect(topleft=(200, 375))
 
-three_fifths = pygame.image.load("three_fifths.png").convert()
+three_fifths_path = os.path.join('images', 'three_fifths.png')
+three_fifths = pygame.image.load(three_fifths_path).convert()
 three_fifths = pygame.transform.scale(three_fifths, (182, 182))
 three_fifths_rect = three_fifths.get_rect(topleft=(395, 375))
 
-three_sixths = pygame.image.load("three_sixths.png").convert()
+three_sixths_path = os.path.join('images', 'three_sixths.png')
+three_sixths = pygame.image.load(three_sixths_path).convert()
 three_sixths = pygame.transform.scale(three_sixths, (182, 182))
 three_sixths_rect = three_sixths.get_rect(topleft=(200, 375))
 
-four_sixths = pygame.image.load("four_sixths.png").convert()
+four_sixths_path = os.path.join('images', 'four_sixths.png')
+four_sixths = pygame.image.load(four_sixths_path).convert()
 four_sixths = pygame.transform.scale(four_sixths, (182, 182))
 four_sixths_rect = four_sixths.get_rect(topleft=(395, 375))
 
-whole = pygame.image.load("whole.png").convert()
+whole_path = os.path.join('images', 'whole.png')
+whole = pygame.image.load(whole_path).convert()
 whole = pygame.transform.scale(whole, (100, 100))
 whole_rect = whole.get_rect(topleft=(10, 405))
 
-one_and_half = pygame.image.load("one_and_half.png").convert()
+one_and_half_path = os.path.join('images', 'one_and_half.png')
+one_and_half = pygame.image.load(one_and_half_path).convert()
 one_and_half = pygame.transform.scale(one_and_half, (200, 100))
 one_and_half_rect = one_and_half.get_rect(topleft=(130, 407))
 
-two_and_half = pygame.image.load("two_and_half.png").convert()
+two_and_half_path = os.path.join('images', 'two_and_half.png')
+two_and_half = pygame.image.load(two_and_half_path).convert()
 two_and_half = pygame.transform.scale(two_and_half, (300, 100))
 two_and_half_rect = two_and_half.get_rect(topleft=(350, 407))
 
@@ -381,7 +403,8 @@ game_line_x = 70
 
 game_results = 0
 
-pizza = pygame.image.load("pizza.png")
+pizza_path = os.path.join('images', 'pizza.png')
+pizza = pygame.image.load(pizza_path)
 pizza_surface = pygame.transform.scale(pizza, (200, 200))
 
 #Customer
@@ -400,6 +423,8 @@ text_duration = 20000
 thanks_duration = 3000
 
 text_start_time = pygame.time.get_ticks()
+
+#MAIN PROGRAM--------------------------------------------------------
 
 while not done:
     
@@ -535,6 +560,13 @@ while not done:
     elif current_state == STATE_GAME:
         if back_button.is_clicked(mouse_pos, event):
             current_state = STATE_MENU  
+    
+    elif current_state == STATE_GAME_RESULTS:
+        if back_button.is_clicked(mouse_pos, event):
+            current_state = STATE_MENU
+            current_customer = 1
+            game_results = 0
+            ans = None
     
     elif current_state == STATE_QUIZ:
         if back_button.is_clicked(mouse_pos, event):
