@@ -99,10 +99,10 @@ next_button_rect.centerx = screen.get_rect().centerx + 300
 next_button_rect.centery = info.centery + 80
 
 next_btn_color = (236, 215, 175)        
-next_btn_text_color = (151, 65, 31)     
+brown = (151, 65, 31)     
 
 next_btn_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40) 
-next_btn_surface = next_btn_font.render("NEXT", True, next_btn_text_color)
+next_btn_surface = next_btn_font.render("NEXT", True, brown)
 next_btn_text_rect = next_btn_surface.get_rect()
 next_btn_text_rect.center = next_button_rect.center
 
@@ -399,7 +399,7 @@ game_line_clr = black
 game_line_thickness = 4
 game_line_x = 70
 
-#Game Results Screen
+#GAME RESULTS Screen--------------------------------------------------
 
 game_results = 0
 
@@ -413,6 +413,111 @@ current_customer = 1
 
 #Answer Result
 ans = None
+
+#QUIZ & RESULTS Screen----------------------------------------------------------
+
+quiz_font = pygame.font.Font("CaveatBrush-Regular.ttf", 80)
+score_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40) 
+
+score = 0
+current_question = 1
+correct_answer_key = "A" 
+
+#Button
+
+class Button:
+    def __init__(self, x, y, width, height, text, action=None):
+        self.rect = pygame.Rect(x, y, width, height)
+        self.text = text
+        self.action = action
+        self.current_bg = text_clr 
+        
+        self.font = pygame.font.Font("CaveatBrush-Regular.ttf", 30) 
+        self.update_text(text) 
+        
+    def update_text(self, new_text):
+        self.text = new_text
+        self.text_surf = self.font.render(self.text, True, imp_clr)
+        self.text_rect = self.text_surf.get_rect(center=self.rect.center)
+        
+    def draw(self, surface):
+        pygame.draw.rect(surface, self.current_bg, self.rect, border_radius=12)
+        surface.blit(self.text_surf, self.text_rect)
+
+    def check_hover(self, mouse_pos):
+        if self.rect.collidepoint(mouse_pos):
+            self.current_bg = white
+        else:
+            self.current_bg = text_clr
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if self.rect.collidepoint(event.pos):
+                if self.action:
+                    self.action()
+    
+# THE questions    
+def evaluate_answer(chosen_letter):
+    global score
+    
+    if chosen_letter == correct_answer_key:
+        score += 1  
+        
+    advance_quiz()
+
+def advance_quiz():
+    global current_question, correct_answer_key, question_surface, question_rect
+    
+    current_question += 1
+    
+    if current_question == 2:
+        correct_answer_key = "A"  
+        question_surface = quiz_font.render("Which fraction is equivalent to 3/17", True, text_clr)
+        btn_a.update_text("A) 12/68")   #correct  
+        btn_b.update_text("B) 3/50")
+        btn_c.update_text("C) 6/33")
+    elif current_question == 3:
+        correct_answer_key = "B"  
+        question_surface = quiz_font.render("Add 2/5 + 4/7", True, text_clr)
+        btn_a.update_text("A) 33 / 34")
+        btn_b.update_text("B) 34 / 35")   #Correct  
+        btn_c.update_text("C) 32 / 33")
+    elif current_question == 4:
+        correct_answer_key = "A"  
+        question_surface = quiz_font.render("Which fraction is greater than 6/8", True, text_clr)
+        btn_a.update_text("A) 4 / 5")     #Correct
+        btn_b.update_text("B) 2 / 3")
+        btn_c.update_text("C) 1 / 2")
+    elif current_question == 5:
+        correct_answer_key = "C"  
+        question_surface = quiz_font.render("Subtract 2/3 - 4/5", True, text_clr)
+        btn_a.update_text("A) -2 / 2")
+        btn_b.update_text("B) -2 / 7")
+        btn_c.update_text("C) -2 / 15")     #correct
+        
+    question_rect = question_surface.get_rect(centerx=screen.get_rect().centerx, top=150)
+    
+# Button actions 
+def handle_choice_a(): evaluate_answer("A")
+def handle_choice_b(): evaluate_answer("B")
+def handle_choice_c(): evaluate_answer("C")
+
+# Formatting buttons
+btn_a = Button(150, 320, 300, 70, "A) 12 / 25", handle_choice_a)
+btn_b = Button(550, 320, 300, 70, "B) 6 / 15", handle_choice_b)
+btn_c = Button(350, 430, 300, 70, "C) 24 / 25", handle_choice_c)
+                
+# TITLE
+quiz_title_surface = quiz_font.render("---Advanced fraction quiz!---", True, text_clr)
+quiz_title_rect = quiz_title_surface.get_rect()
+quiz_title_rect.centerx = screen.get_rect().centerx  
+quiz_title_rect.top = 50
+
+# Question
+question_surface = quiz_font.render("Simplify: 24/50", True, text_clr)
+question_rect = question_surface.get_rect()
+question_rect.centerx = screen.get_rect().centerx  
+question_rect.top = 150
 
 #EXIT Screen---------------------------------------------------------
 
@@ -438,6 +543,13 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        
+        if current_state == STATE_QUIZ:
+            
+            if current_question <= 5:
+                btn_a.handle_event(event)
+                btn_b.handle_event(event)
+                btn_c.handle_event(event)            
             
         if current_state == STATE_GAME:
         
@@ -571,10 +683,9 @@ while not done:
     elif current_state == STATE_QUIZ:
         if back_button.is_clicked(mouse_pos, event):
             current_state = STATE_MENU   
-    
-    elif current_state == STATE_RESULTS:
-        if back_button.is_clicked(mouse_pos, event):
-            current_state = STATE_MENU        
+            score = 0
+            current_question = 1
+            correct_answer_key = "A"                
     
     if current_state == STATE_MENU:
         screen.blit(menu_title, (450, 20))
@@ -839,44 +950,39 @@ while not done:
             text = font.render("You're a professional pizza server!", True, text_clr)
             screen.blit(text, (220, 320))                
     
-    #QUIZ Screen----------------------------------------------------------
+#QUIZ & RESULTS Screen----------------------------------------------------------
         
     elif current_state == STATE_QUIZ:
-        title = font.render("Quiz", True, white)
-        screen.blit(title, (380, 50))
+        screen.fill(bg_clr)
     
-        small_font = pygame.font.Font("CaveatBrush-Regular.ttf", 32)        
-
-        rules = [
-        "Insert quiz"
-    ]
-
-        for i, rule in enumerate(rules):
-            text = small_font.render(rule, True, white)
-            screen.blit(text, (100, 150 + i * 50))
-    
-        back_button.check_hover(mouse_pos)
-        back_button.draw(screen)        
+        if current_question <= 5:
+            btn_a.check_hover(mouse_pos)
+            btn_b.check_hover(mouse_pos)
+            btn_c.check_hover(mouse_pos)    
+            
+        screen.blit(quiz_title_surface, quiz_title_rect)    
+            
+        score_surface = score_font.render(f"Score: {score} / 5", True, text_clr)
+        screen.blit(score_surface, (800, 25))    
         
-#RESULTS Screen--------------------------------------------------------
+        if current_question <= 5:
+            screen.blit(question_surface, question_rect)    
+            btn_a.draw(screen)
+            btn_b.draw(screen)
+            btn_c.draw(screen)
+        else:
+            end_surface = quiz_font.render("Quiz Complete!", True, text_clr)
+            end_rect = end_surface.get_rect(center=(500, 260))
+    
+            final_score_surface = score_font.render(f"Final Score: {score} / 5 points", True, text_clr)
+            final_score_rect = final_score_surface.get_rect(center=(500, 360))       
         
-    elif current_state == STATE_RESULTS:
-        title = font.render("Quiz Results", True, white)
-        screen.blit(title, (380, 50))
-    
-        small_font = pygame.font.Font("CaveatBrush-Regular.ttf", 32)        
-
-        rules = [
-        "Insert results"
-    ]
-
-        for i, rule in enumerate(rules):
-            text = small_font.render(rule, True, white)
-            screen.blit(text, (100, 150 + i * 50))
-    
-        back_button.check_hover(mouse_pos)
-        back_button.draw(screen)       
-    
+            screen.blit(end_surface, end_rect)
+            screen.blit(final_score_surface, final_score_rect)    
+        
+            back_button.check_hover(mouse_pos)
+            back_button.draw(screen)        
+        
 #EXIT Screen-----------------------------------------------------------
     
     elif current_state == STATE_EXIT:
