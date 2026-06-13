@@ -15,3 +15,29 @@ done = False
 
 bg_clr = (151, 65, 31)
 text_clr = (236, 215, 175)
+
+# TITLE
+results_title_surface = quiz_font.render("---Results---", True, text_clr)
+results_title_rect = results_title_surface.get_rect()
+results_title_rect.centerx = screen.get_rect().centerx  
+results_title_rect.top = 50
+
+while not done:
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                        done = True   
+        screen.fill(bg_clr)
+        
+        #quiz results
+        
+        final_score_surface = score_font.render(f"Final Score: {score} / 5 points", True, beige)
+        final_score_rect = final_score_surface.get_rect(center=(500, 360))       
+            
+        # title text 1
+        screen.blit(results_title_surface, results_title_rect) 
+        
+        clock.tick(60) 
+        pygame.display.flip()
+
+pygame.quit()
+sys.exit()
