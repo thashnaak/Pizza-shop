@@ -414,7 +414,7 @@ current_customer = 1
 #Answer Result
 ans = None
 
-#QUIZ & RESULTS Screen----------------------------------------------------------
+#QUIZ Screen----------------------------------------------------------
 
 quiz_font = pygame.font.Font("CaveatBrush-Regular.ttf", 80)
 score_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40) 
@@ -518,6 +518,14 @@ question_surface = quiz_font.render("Simplify: 24/50", True, text_clr)
 question_rect = question_surface.get_rect()
 question_rect.centerx = screen.get_rect().centerx  
 question_rect.top = 150
+
+
+#RESULTS Screen------------------------------------------------------
+# TITLE
+results_title_surface = quiz_font.render("---Results---", True, text_clr)
+results_title_rect = results_title_surface.get_rect()
+results_title_rect.centerx = screen.get_rect().centerx  
+results_title_rect.top = 50
 
 #EXIT Screen---------------------------------------------------------
 
@@ -950,7 +958,7 @@ while not done:
             text = font.render("You're a professional pizza server!", True, text_clr)
             screen.blit(text, (220, 320))                
     
-#QUIZ & RESULTS Screen----------------------------------------------------------
+#QUIZ Screen----------------------------------------------------------
         
     elif current_state == STATE_QUIZ:
         screen.fill(bg_clr)
@@ -972,16 +980,28 @@ while not done:
             btn_c.draw(screen)
         else:
             end_surface = quiz_font.render("Quiz Complete!", True, text_clr)
-            end_rect = end_surface.get_rect(center=(500, 260))
-    
-            final_score_surface = score_font.render(f"Final Score: {score} / 5 points", True, text_clr)
-            final_score_rect = final_score_surface.get_rect(center=(500, 360))       
+            end_rect = end_surface.get_rect(center=(500, 260))    
         
-            screen.blit(end_surface, end_rect)
-            screen.blit(final_score_surface, final_score_rect)    
+            screen.blit(end_surface, end_rect)    
         
             back_button.check_hover(mouse_pos)
-            back_button.draw(screen)        
+            back_button.draw(screen)  
+
+#RESULTS Screen-------------------------------------------------------
+    elif current_state == STATE_RESULTS:
+            screen.fill(bg_clr)
+ 
+        #quiz results
+        final_score_surface = score_font.render(f"Final Score: {score} / 5 points", True, beige)
+        final_score_rect = final_score_surface.get_rect(center=(500, 360)) 
+        
+        screen.blit(final_score_surface, final_score_rect)
+            
+        # title text 1
+        screen.blit(results_title_surface, results_title_rect) 
+
+        back_button.check_hover(mouse_pos)
+            back_button.draw(screen)
         
 #EXIT Screen-----------------------------------------------------------
     
