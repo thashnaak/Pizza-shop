@@ -5,6 +5,7 @@ import sys
 
 pygame.font.init()
 quiz_font = pygame.font.Font("CaveatBrush-Regular.ttf", 80)
+score_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40) 
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 600))
@@ -14,58 +15,152 @@ done = False
 
 bg_clr = (151, 65, 31)
 text_clr = (236, 215, 175)
+hover_clr = (255, 255, 255)
 
+# Variables
+score = 0
+current_question = 1
+correct_answer_key = "A" 
 
-
-#Colors
+# Colors
 beige = (236, 215, 175)
 orange = (216, 104, 40)
+brown = (151, 65, 31)
 
 class Button:
-
     def __init__(self, x, y, width, height, text, action=None):
-        # Create the core rectangle boundary for collision
         self.rect = pygame.Rect(x, y, width, height)
         self.text = text
         self.action = action
+        self.current_bg = beige 
         
-        # Set up fonts and render text surface
-        self.font = pygame.font.Font("CaveatBrush-Regular.ttf", 30) #MAY NOT WORK
+        self.font = pygame.font.Font("CaveatBrush-Regular.ttf", 30) 
+        self.update_text(text) 
+        
+    def update_text(self, new_text):
+        self.text = new_text
         self.text_surf = self.font.render(self.text, True, orange)
-        # Center the text within the rectangle box
         self.text_rect = self.text_surf.get_rect(center=self.rect.center)
+        
+    def draw(self, surface):
+        pygame.draw.rect(surface, self.current_bg, self.rect, border_radius=12)
+        surface.blit(self.text_surf, self.text_rect)
+
+    def check_hover(self, mouse_pos):
+        if self.rect.collidepoint(mouse_pos):
+            self.current_bg = hover_clr
+        else:
+            self.current_bg = beige
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if self.rect.collidepoint(event.pos):
+                if self.action:
+                    self.action()
     
-        # Dynamic color tracking
-        self.current_color = beige        
-#TITLE
+# THE questions    
+def evaluate_answer(chosen_letter):
+    global score
+    
+    if chosen_letter == correct_answer_key:
+        score += 1  
+        print(f"Correct! Score: {score}")
+    else:
+        print(f"Incorrect. Score remains: {score}")
+        
+    advance_quiz()
+
+def advance_quiz():
+    global current_question, correct_answer_key, question_surface, question_rect
+    
+    current_question += 1
+    
+    if current_question == 2:
+        correct_answer_key = "A"  
+        question_surface = quiz_font.render("Which fraction is equivalent to 3/17", True, text_clr)
+        btn_a.update_text("A) 12/68")   #correct  
+        btn_b.update_text("B) 3/50")
+        btn_c.update_text("C) 6/33")
+    elif current_question == 3:
+        correct_answer_key = "B"  
+        question_surface = quiz_font.render("Add 2/5 + 4/7", True, text_clr)
+        btn_a.update_text("A) 33 / 34")
+        btn_b.update_text("B) 34 / 35")   #Correct  
+        btn_c.update_text("C) 32 / 33")
+    elif current_question == 4:
+        correct_answer_key = "A"  
+        question_surface = quiz_font.render("Which fraction is greater than 6/8", True, text_clr)
+        btn_a.update_text("A) 4 / 5")     #Correct
+        btn_b.update_text("B) 2 / 3")
+        btn_c.update_text("C) 1 / 2")
+    elif current_question == 5:
+        correct_answer_key = "C"  
+        question_surface = quiz_font.render("Subtract 2/3 - 4/5", True, text_clr)
+        btn_a.update_text("A) -2 / 2")
+        btn_b.update_text("B) -2 / 7")
+        btn_c.update_text("C) -2 / 15")     #correct
+        
+    question_rect = question_surface.get_rect(centerx=screen.get_rect().centerx, top=150)
+        
+# Button actions 
+def handle_choice_a(): evaluate_answer("A")
+def handle_choice_b(): evaluate_answer("B")
+def handle_choice_c(): evaluate_answer("C")
+
+# Formatting buttons
+btn_a = Button(150, 320, 300, 70, "A) 12 / 25", handle_choice_a)
+btn_b = Button(550, 320, 300, 70, "B) 6 / 15", handle_choice_b)
+btn_c = Button(350, 430, 300, 70, "C) 24 / 25", handle_choice_c)
+                
+# TITLE
 quiz_title_surface = quiz_font.render("---Advanced fraction quiz!---", True, text_clr)
 quiz_title_rect = quiz_title_surface.get_rect()
-
-# Position the title
-quiz_title_rect.centerx = screen.get_rect().centerx  # Center it 
+quiz_title_rect.centerx = screen.get_rect().centerx  
 quiz_title_rect.top = 50
 
-#Question
-question_surface = quiz_font.render ("Simplify: 24/50", True, text_clr)
+# Question
+question_surface = quiz_font.render("Simplify: 24/50", True, text_clr)
 question_rect = question_surface.get_rect()
-
-# Position the question
-question_rect.centerx = screen.get_rect().centerx  # Center it 
+question_rect.centerx = screen.get_rect().centerx  
 question_rect.top = 150
 
-
 while not done:
+    mouse_pos = pygame.mouse.get_pos()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-    screen.fill(bg_clr)
 
-    # title text
-    screen.blit(quiz_title_surface, quiz_title_rect)    
+        if current_question <= 5:
+            btn_a.handle_event(event)
+            btn_b.handle_event(event)
+            btn_c.handle_event(event)
+            
+    screen.fill(bg_clr)
     
-    #Question 
-    screen.blit(question_surface, question_rect)    
-  
+    if current_question <= 5:
+        btn_a.check_hover(mouse_pos)
+        btn_b.check_hover(mouse_pos)
+        btn_c.check_hover(mouse_pos)    
+        
+    screen.blit(quiz_title_surface, quiz_title_rect)    
+        
+    score_surface = score_font.render(f"Score: {score} / 5", True, text_clr)
+    screen.blit(score_surface, (800, 25))    
+    
+    if current_question <= 5:
+        screen.blit(question_surface, question_rect)    
+        btn_a.draw(screen)
+        btn_b.draw(screen)
+        btn_c.draw(screen)
+    else:
+        end_surface = quiz_font.render("Quiz Complete!", True, text_clr)
+        end_rect = end_surface.get_rect(center=(500, 260))
+
+        final_score_surface = score_font.render(f"Final Score: {score} / 5 points", True, beige)
+        final_score_rect = final_score_surface.get_rect(center=(500, 360))       
+    
+        screen.blit(end_surface, end_rect)
+        screen.blit(final_score_surface, final_score_rect)    
 
     clock.tick(60) 
     pygame.display.flip()
