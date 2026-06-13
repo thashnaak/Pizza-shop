@@ -530,7 +530,7 @@ question_rect.top = 150
 #EXIT Screen---------------------------------------------------------
 
 #Credits Duration
-text_duration = 20000 
+text_duration = 10000 
 
 #Thanks Text Duration
 thanks_duration = 3000
@@ -1003,7 +1003,7 @@ while not done:
     
         small_font = pygame.font.Font("CaveatBrush-Regular.ttf", 32)
     
-        if elapsed_time < 20000:
+        if elapsed_time < 10000:
     
             title = font.render("Credits", True, white)
             screen.blit(title, (380, 50))
@@ -1012,7 +1012,7 @@ while not done:
                 text = small_font.render(line, True, white)
                 screen.blit(text, (100, 150 + i * 40))
     
-        elif elapsed_time < 23000:
+        elif elapsed_time < 13000:
     
             thanks_text = font.render("Thanks for playing!", True, white)
     
