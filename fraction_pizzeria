@@ -9,6 +9,7 @@ title_font = pygame.font.Font("CaveatBrush-Regular.ttf", 90)
 subtitle_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40)
 lesson_font = pygame.font.Font("CaveatBrush-Regular.ttf", 20)
 lesson_title_font = pygame.font.Font("CaveatBrush-Regular.ttf", 80) 
+score_font = pygame.font.Font("CaveatBrush-Regular.ttf", 70)
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 600))
@@ -20,6 +21,7 @@ STATE_TITLE = "title"
 STATE_MENU = "menu"
 STATE_LESSON = "lesson"
 STATE_GAME = "game"
+STATE_GAME_RESULTS = "game results"
 STATE_QUIZ = "quiz"
 STATE_RESULTS = "results"
 STATE_EXIT = "exit"
@@ -203,7 +205,7 @@ exit_button = Button(
 
 back_button = Button(
     text="Back",
-    x=50, y=500, width=150, height=50,
+    x=20, y=540, width=150, height=50,
     normal_color=red, hover_color=light_red,
     text_color=white
 )
@@ -240,7 +242,7 @@ lesson_sub_rect4 = lesson_sub_line4.get_rect(topleft=(50, 300))
 lesson_image_surface = pygame.image.load("game_bg.png") 
 
 #Size it
-lesson_image_surface = pygame.transform.scale(lesson_image_surface, (300, 200))
+lesson_image_surface = pygame.transform.scale(lesson_image_surface, (310, 200))
 
 lesson_image_rect = lesson_image_surface.get_rect()
 # Positoning it
@@ -298,6 +300,12 @@ bg_c2 = pygame.transform.scale(bg_c2, (1000, 600))
 bg_c3 = pygame.image.load("bg_c3.png").convert()
 bg_c3 = pygame.transform.scale(bg_c3, (1000, 600))
 
+bg_c5 = pygame.image.load("bg_c5.png").convert()
+bg_c5 = pygame.transform.scale(bg_c5, (1000, 600))
+
+bg_c6 = pygame.image.load("bg_c6.png").convert()
+bg_c6 = pygame.transform.scale(bg_c6, (1000, 600))
+
 bg_correct = pygame.image.load("bg_correct.png").convert()
 bg_correct = pygame.transform.scale(bg_correct, (1000, 600))
 bg_correct_duration = 2000
@@ -330,15 +338,65 @@ two_fourths = pygame.image.load("two_fourths.png").convert()
 two_fourths = pygame.transform.scale(two_fourths, (182, 182))
 two_fourths_rect = two_fourths.get_rect(topleft=(200, 375))
 
+two_sixths = pygame.image.load("two_sixths.png").convert()
+two_sixths = pygame.transform.scale(two_sixths, (182, 182))
+two_sixths_rect = two_sixths.get_rect(topleft=(10, 375))
+
+four_eights = pygame.image.load("four_eights.png").convert()
+four_eights = pygame.transform.scale(four_eights, (182, 182))
+four_eights_rect = four_eights.get_rect(topleft=(200, 375))
+
+three_fifths = pygame.image.load("three_fifths.png").convert()
+three_fifths = pygame.transform.scale(three_fifths, (182, 182))
+three_fifths_rect = three_fifths.get_rect(topleft=(395, 375))
+
+three_sixths = pygame.image.load("three_sixths.png").convert()
+three_sixths = pygame.transform.scale(three_sixths, (182, 182))
+three_sixths_rect = three_sixths.get_rect(topleft=(200, 375))
+
+four_sixths = pygame.image.load("four_sixths.png").convert()
+four_sixths = pygame.transform.scale(four_sixths, (182, 182))
+four_sixths_rect = four_sixths.get_rect(topleft=(395, 375))
+
+whole = pygame.image.load("whole.png").convert()
+whole = pygame.transform.scale(whole, (100, 100))
+whole_rect = whole.get_rect(topleft=(10, 405))
+
+one_and_half = pygame.image.load("one_and_half.png").convert()
+one_and_half = pygame.transform.scale(one_and_half, (200, 100))
+one_and_half_rect = one_and_half.get_rect(topleft=(130, 407))
+
+two_and_half = pygame.image.load("two_and_half.png").convert()
+two_and_half = pygame.transform.scale(two_and_half, (300, 100))
+two_and_half_rect = two_and_half.get_rect(topleft=(350, 407))
+
+#Line
+
+black = (0, 0, 0)
+game_line_clr = black
+game_line_thickness = 4
+game_line_x = 70
+
+#Game Results Screen
+
+game_results = 0
+
+pizza = pygame.image.load("pizza.png")
+pizza_surface = pygame.transform.scale(pizza, (200, 200))
+
+#Customer
+
 current_customer = 1
 
 #Answer Result
 ans = None
 
-#Credits Duration----------------------------------------------------
+#EXIT Screen---------------------------------------------------------
+
+#Credits Duration
 text_duration = 20000 
 
-#Thanks Text Duration------------------------------------------------
+#Thanks Text Duration
 thanks_duration = 3000
 
 text_start_time = pygame.time.get_ticks()
@@ -355,6 +413,77 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+            
+        if current_state == STATE_GAME:
+        
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+            
+                        if current_customer == 1:
+            
+                            if one_half_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "correct"
+                                game_results += 1
+            
+                            elif one_fourth_rect.collidepoint(event.pos) or three_fourths_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "wrong"   
+                                
+                        if current_customer == 2:
+                            
+                            if one_fourth_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "correct"
+                                game_results += 1
+                                
+                            elif one_third_rect.collidepoint(event.pos) or one_half_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "wrong"           
+                        
+                        if current_customer == 3:
+                            
+                            if three_fourths_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "correct"
+                                game_results += 1
+                                
+                            elif two_fourths_rect.collidepoint(event.pos) or one_fourth_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "wrong"
+                        
+                        if current_customer == 4:
+                            
+                            if four_eights_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "correct"
+                                game_results += 1
+                                
+                            elif two_sixths_rect.collidepoint(event.pos) or three_fifths_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "wrong"    
+                                
+                        if current_customer == 5:
+                            
+                            if four_sixths_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "correct"
+                                game_results += 1
+                                
+                            elif two_sixths_rect.collidepoint(event.pos) or three_sixths_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "wrong"                                    
+                        
+                        if current_customer == 6:
+                            
+                            if one_and_half_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "correct"
+                                game_results += 1
+                                
+                            elif whole_rect.collidepoint(event.pos) or two_and_half_rect.collidepoint(event.pos):
+                                bg_start_time = pygame.time.get_ticks()
+                                ans = "wrong"                                                
 
 #TITLE Screen--------------------------------------------------------
     
@@ -475,36 +604,7 @@ while not done:
         
 #GAME Screen--------------------------------------------------------
     
-    elif current_state == STATE_GAME:
-    
-        if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-        
-                    if current_customer == 1:
-        
-                        if one_half_rect.collidepoint(event.pos):
-                            bg_start_time = pygame.time.get_ticks()
-                            ans = "correct"
-        
-                        elif one_fourth_rect.collidepoint(event.pos) or three_fourths_rect.collidepoint(event.pos):
-                            bg_start_time = pygame.time.get_ticks()
-                            ans = "wrong"   
-                            
-                    if current_customer == 2:
-                        if one_fourth_rect.collidepoint(event.pos):
-                            bg_start_time = pygame.time.get_ticks()
-                            ans = "correct"
-                        elif one_third_rect.collidepoint(event.pos) or one_half_rect.collidepoint(event.pos):
-                            bg_start_time = pygame.time.get_ticks()
-                            ans = "wrong"           
-                    
-                    if current_customer == 3:
-                        if three_fourths_rect.collidepoint(event.pos):
-                            bg_start_time = pygame.time.get_ticks()
-                            ans = "correct"
-                        elif two_fourths_rect.collidepoint(event.pos) or one_fourth_rect.collidepoint(event.pos):
-                            bg_start_time = pygame.time.get_ticks()
-                            ans = "wrong"
+    elif current_state == STATE_GAME:            
                             
         #Customer 1------------------
         
@@ -558,7 +658,7 @@ while not done:
                     current_customer = 3
                     ans = None
                     
-                #Customer 3-----------------------------
+        #Customer 3-----------------------------
                     
         elif current_customer == 3:
             
@@ -583,7 +683,129 @@ while not done:
         
                 if pygame.time.get_ticks() - bg_start_time >= 2000:
                     current_customer = 4
+                    ans = None           
+                    
+        #Customer 4----------------------------
+                    
+        elif current_customer == 4:
+            
+            screen.blit(bg_c1, (0, 0))
+            
+            screen.blit(two_sixths, two_sixths_rect)
+            screen.blit(four_eights, four_eights_rect)
+            screen.blit(three_fifths, three_fifths_rect)  
+            
+            if ans == "correct":
+                screen.blit(bg_correct, (0, 0))
+    
+                if pygame.time.get_ticks() - bg_start_time >= 2000:
+                    current_customer = 5
+                    ans = None
+    
+            elif ans == "wrong":
+                screen.blit(bg_wrong, (0, 0))
+    
+                if pygame.time.get_ticks() - bg_start_time >= 2000:
+                    current_customer = 5
                     ans = None             
+    
+        #Customer 5---------------------------
+                
+        elif current_customer == 5:
+            
+            screen.blit(bg_c5, (0, 0))
+            
+            screen.blit(two_sixths, two_sixths_rect)
+            screen.blit(three_sixths, three_sixths_rect)
+            screen.blit(four_sixths, four_sixths_rect)  
+            
+            if ans == "correct":
+                screen.blit(bg_correct, (0, 0))
+    
+                if pygame.time.get_ticks() - bg_start_time >= 2000:
+                    current_customer = 6
+                    ans = None
+    
+            elif ans == "wrong":
+                screen.blit(bg_wrong, (0, 0))
+    
+                if pygame.time.get_ticks() - bg_start_time >= 2000:
+                    current_customer = 6
+                    ans = None        
+                    
+        #Customer 6-----------------------
+                    
+        elif current_customer == 6:
+            
+            screen.blit(bg_c6, (0, 0))
+    
+            screen.blit(whole, whole_rect)
+            screen.blit(one_and_half, one_and_half_rect)
+            screen.blit(two_and_half, two_and_half_rect)     
+            
+            pygame.draw.line(screen, black, (120, 378), (120, 553), game_line_thickness)
+            pygame.draw.line(screen, black, (340, 378), (340, 553), game_line_thickness)
+            
+            if ans == "correct":
+                screen.blit(bg_correct, (0, 0))
+    
+                if pygame.time.get_ticks() - bg_start_time >= 2000:
+                    ans = None
+                    current_state = STATE_GAME_RESULTS
+    
+            elif ans == "wrong":
+                screen.blit(bg_wrong, (0, 0))
+    
+                if pygame.time.get_ticks() - bg_start_time >= 200:
+                    ans = None                
+                    current_state = STATE_GAME_RESULTS
+        
+#Game results-------------------------------
+            
+    elif current_state == STATE_GAME_RESULTS:
+    
+        screen.fill(bg_clr)
+        
+        game_results_title = title_font.render("---Game Results---", True, light_bgclr)
+        screen.blit(game_results_title, (160, 50))    
+        
+        score = score_font.render(f"You got {game_results}/6!", True, text_clr)
+        screen.blit(score, (330, 230))
+        
+        screen.blit(image_surface, (10, 375))
+        
+        screen.blit(pizza_surface, (750, 380))
+        
+        back_button.check_hover(mouse_pos)
+        back_button.draw(screen)        
+        
+        if game_results == 0:
+            text = font.render("Try reviewing again...", True, text_clr)
+            screen.blit(text, (345, 320))
+        
+        elif game_results == 1:
+            text = font.render("Better luck next time!", True, text_clr)
+            screen.blit(text, (340, 320))
+            
+        elif game_results == 2:
+            text = font.render("You need to work on your serving...", True, text_clr)
+            screen.blit(text, (240, 320))
+        
+        elif game_results == 3:
+            text = font.render("You're halfway to becoming a pizza server!", True, text_clr)
+            screen.blit(text, (170, 320))
+        
+        elif game_results == 4:
+            text = font.render("You're getting the hang of it!", True, text_clr)
+            screen.blit(text, (250, 320))
+            
+        elif game_results == 5:
+            text = font.render("You're almost there!", True, text_clr)
+            screen.blit(text, (310, 320))
+        
+        elif game_results == 6:
+            text = font.render("You're a professional pizza server!", True, text_clr)
+            screen.blit(text, (220, 320))                
     
     #QUIZ Screen----------------------------------------------------------
         
