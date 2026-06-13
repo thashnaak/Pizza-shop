@@ -16,7 +16,9 @@ title_font = pygame.font.Font("CaveatBrush-Regular.ttf", 90)
 subtitle_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40)
 lesson_font = pygame.font.Font("CaveatBrush-Regular.ttf", 20)
 lesson_title_font = pygame.font.Font("CaveatBrush-Regular.ttf", 80) 
-score_font = pygame.font.Font("CaveatBrush-Regular.ttf", 70)
+game_score_font = pygame.font.Font("CaveatBrush-Regular.ttf", 70)
+quiz_font = pygame.font.Font("CaveatBrush-Regular.ttf", 60)
+score_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40) 
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 600))
@@ -424,9 +426,6 @@ current_customer = 1
 ans = None
 
 #QUIZ Screen----------------------------------------------------------
-
-quiz_font = pygame.font.Font("CaveatBrush-Regular.ttf", 70)
-score_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40) 
 
 score = 0
 current_question = 1
@@ -959,7 +958,7 @@ while not done:
         game_results_title = title_font.render("---Game Results---", True, light_bgclr)
         screen.blit(game_results_title, (160, 50))    
         
-        game_score = game_.render(f"You got {game_results}/6!", True, text_clr)
+        game_score = game_score_font.render(f"You got {game_results}/6!", True, text_clr)
         screen.blit(game_score, (330, 230))
         
         screen.blit(image_surface, (10, 375))
@@ -971,19 +970,19 @@ while not done:
         
         if game_results == 0:
             text = font.render("No correct orders this time", True, text_clr)
-            screen.blit(text, (345, 320))
+            screen.blit(text, (260, 320))
         
         elif game_results == 1:
             text = font.render("Better luck next time!", True, text_clr)
-            screen.blit(text, (340, 320))
+            screen.blit(text, (300, 320))
             
         elif game_results == 2:
             text = font.render("Not quite a full combo", True, text_clr)
-            screen.blit(text, (240, 320))
+            screen.blit(text, (280, 320))
         
         elif game_results == 3:
             text = font.render("You're halfway to a flawless shift!", True, text_clr)
-            screen.blit(text, (170, 320))
+            screen.blit(text, (200, 320))
         
         elif game_results == 4:
             text = font.render("You're getting the hang of it!", True, text_clr)
@@ -1096,7 +1095,7 @@ while not done:
             screen.blit(thanks_text, (x, y))
     
         else:
-            done = True    
+            done = True
     
     clock.tick(60) 
     pygame.display.flip()
