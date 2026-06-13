@@ -239,7 +239,7 @@ lesson_title_rect.top = 50
 
 # Spliting long sentence into 4  text lines
 lesson_sub_line1 = lesson_font.render("A customer will ask for a fraction of pizza. Then you’ll have", True, text_clr)
-lesson_sub_line2 = lesson_font.render("THREE options of pizza (which we cut for you) to pick from", True, text_clr)
+lesson_sub_line2 = lesson_font.render("THREE options of pizza (which we cut for you) to pick from.", True, text_clr)
 lesson_sub_line3 = lesson_font.render("Click on the correct pizza! When clicked you can't change it.", True, text_clr)
 lesson_sub_line4 = lesson_font.render(" Here is how the game looks when you get started ", True, imp_clr) #change text color maybe
 
