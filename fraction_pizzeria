@@ -23,7 +23,7 @@ score_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40)
 pygame.init()
 screen = pygame.display.set_mode((1000, 600))
 clock = pygame.time.Clock()
-pygame.display.set_caption("Welcome to Fraction Pizzeria ")
+pygame.display.set_caption("Fraction Pizzeria 🍕")
 done = False
 
 STATE_TITLE = "title"
@@ -82,7 +82,7 @@ subtitle_rect.top = 150
 
 #Work for the in text box --------------------------------------------------------------
 # First line 
-text_surface1 = font.render("Basic Info:", True, (151,65,31)) #CHANGE TO DARKER COLOR
+text_surface1 = font.render("Basic Info:", True, dark_bgclr)
 text_rect1 = text_surface1.get_rect()
 # Second line
 text_surface2 = font.render("Author: Swara and Thashnaa", True, (151,65,31))
