@@ -6,10 +6,10 @@ import sys
 pygame.font.init()
 pygame.mixer.init()
 
-#music_path = os.path.joint('music', 'background_track.ogg')
-#pygame.mixer.music.load(music_path)
-#pygame.mixer.music.play(-1)
-#pygame.mixer.music.set_volume(0.3)
+music_path = os.path.join('music', 'thediner_instrumental.ogg')
+pygame.mixer.music.load(music_path)
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(1.0)
 
 font = pygame.font.Font("CaveatBrush-Regular.ttf", 35)
 title_font = pygame.font.Font("CaveatBrush-Regular.ttf", 90) 
@@ -91,10 +91,10 @@ text_rect2 = text_surface2.get_rect()
 text_surface3 = font.render("Teacher: Ms. Xie", True, (151,65,31))
 text_rect3 = text_surface3.get_rect()
 # Fourth line 
-text_surface4 = font.render("Course code: TEJ 207", True, (151,65,31))
+text_surface4 = font.render("Course code: TEJ207", True, (151,65,31))
 text_rect4 = text_surface4.get_rect()
 # Fifth line 
-text_surface5 = font.render("Date: June 5 2026", True, (151,65,31))
+text_surface5 = font.render("Date: June 14, 2026", True, (151,65,31))
 text_rect5 = text_surface5.get_rect()
 
 
@@ -1036,42 +1036,47 @@ while not done:
         
         screen.fill(bg_clr)
         
-        #quiz results
-                
-        final_score_surface = score_font.render(f"Final Score: {score} / 5 points", True, text_clr)       
-                    
-        # title text 1
-        screen.blit(results_title_surface, results_title_rect)   
-        
-        screen.blit(final_score_surface, (340, 200))
+        screen.blit(results_title_surface, results_title_rect)
         
         back_button.check_hover(mouse_pos)
         back_button.draw(screen)        
         
-        if score == 0:
-            text = font.render("Try reviewing again...", True, text_clr)
-            screen.blit(text, (330, 320))
+        if current_question > 5:
         
-        elif score == 1:
-            text = font.render("You're a fraction of the way there!", True, text_clr)
-            screen.blit(text, (220, 320))
+            #quiz results
+                    
+            final_score_surface = score_font.render(f"Final Score: {score} / 5 points", True, text_clr)         
             
-        elif score == 2:
-            text = font.render("Good effort!", True, text_clr)
-            screen.blit(text, (390, 320))
-        
-        elif score == 3:
-            text = font.render("You're halfway there!", True, text_clr)
-            screen.blit(text, (335, 320))
-        
-        elif score == 4:
-            text = font.render("Just a slice away from perfection!", True, text_clr)
-            screen.blit(text, (220, 320))
+            screen.blit(final_score_surface, (340, 200))        
             
-        elif score == 5:
-            text = font.render("Perfect score!", True, text_clr)
-            screen.blit(text, (390, 320))                    
+            if score == 0:
+                text = font.render("Try reviewing again...", True, text_clr)
+                screen.blit(text, (330, 320))
+            
+            elif score == 1:
+                text = font.render("You're a fraction of the way there!", True, text_clr)
+                screen.blit(text, (220, 320))
+                
+            elif score == 2:
+                text = font.render("Good effort!", True, text_clr)
+                screen.blit(text, (390, 320))
+            
+            elif score == 3:
+                text = font.render("You're halfway there!", True, text_clr)
+                screen.blit(text, (335, 320))
+            
+            elif score == 4:
+                text = font.render("Just a slice away from perfection!", True, text_clr)
+                screen.blit(text, (220, 320))
+                
+            elif score == 5:
+                text = font.render("Perfect score!", True, text_clr)
+                screen.blit(text, (390, 320))               
         
+        else:
+            go_back = score_font.render(f"Complete the quiz first!", True, text_clr)  
+            screen.blit(go_back, (340, 270))
+            
 #EXIT Screen-----------------------------------------------------------
     
     elif current_state == STATE_EXIT:
@@ -1100,6 +1105,6 @@ while not done:
     clock.tick(60) 
     pygame.display.flip()
 
-#pygame.mixer.music.stop()
+pygame.mixer.music.stop()
 pygame.quit()
 sys.exit()
