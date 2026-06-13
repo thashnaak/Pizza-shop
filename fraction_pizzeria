@@ -39,6 +39,21 @@ bg_clr = (151, 65, 31)
 title_clr = (236, 215, 175)
 imp_clr = (216, 104, 40)
 
+red = (216, 40, 40)
+light_red = (245, 73, 73)
+
+green = (103, 162, 29)
+light_green = (144, 217, 52)
+
+yellow = (219, 159, 27)
+light_yellow = (247, 189, 62)
+
+brown = (162, 105, 29)
+light_brown = (199, 134, 48)
+
+dark_bgclr = (115, 38, 8)
+light_bgclr = (214, 101, 56)
+
 text_clr = (236, 215, 175)
 rect_width = 400
 rect_height = 300
@@ -127,26 +142,12 @@ image_rect.bottom = next_button_rect.top - 20
 #MENU Screen---------------------------------------------------------
 
 font = pygame.font.Font("CaveatBrush-Regular.ttf", 48)
-menu_title = font.render("Menu", True, title_clr)
+menu_title = font.render("Menu", True, light_bgclr)
 white = (255, 255, 255)
 
 menu_bg_path = os.path.join('images', 'menu_bg.png')
 menu_bg = pygame.image.load(menu_bg_path).convert()
 menu_bg = pygame.transform.scale(menu_bg, (1000, 600))
-
-red = (216, 40, 40)
-light_red = (245, 73, 73)
-
-green = (103, 162, 29)
-light_green = (144, 217, 52)
-
-yellow = (219, 159, 27)
-light_yellow = (247, 189, 62)
-
-brown = (162, 105, 29)
-light_brown = (199, 134, 48)
-
-light_bgclr = (214, 101, 56)
 
 #Button Code----------------------------------------------------------
 class Button:
@@ -209,7 +210,7 @@ results_button = Button(
 exit_button = Button(
     text="Exit",
     x=425, y=500, width=150, height=50,
-    normal_color=bg_clr, hover_color=light_bgclr, text_color=white
+    normal_color=dark_bgclr, hover_color=light_bgclr, text_color=white
 )
 
 back_button = Button(
@@ -422,9 +423,9 @@ current_customer = 1
 #Answer Result
 ans = None
 
-#QUIZ & RESULTS Screen----------------------------------------------------------
+#QUIZ Screen----------------------------------------------------------
 
-quiz_font = pygame.font.Font("CaveatBrush-Regular.ttf", 80)
+quiz_font = pygame.font.Font("CaveatBrush-Regular.ttf", 70)
 score_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40) 
 
 score = 0
@@ -480,7 +481,7 @@ def advance_quiz():
     
     if current_question == 2:
         correct_answer_key = "A"  
-        question_surface = quiz_font.render("Which fraction is equivalent to 3/17", True, text_clr)
+        question_surface = quiz_font.render("Which fraction is equivalent to 3/17?", True, text_clr)
         btn_a.update_text("A) 12/68")   #correct  
         btn_b.update_text("B) 3/50")
         btn_c.update_text("C) 6/33")
@@ -492,7 +493,7 @@ def advance_quiz():
         btn_c.update_text("C) 32 / 33")
     elif current_question == 4:
         correct_answer_key = "A"  
-        question_surface = quiz_font.render("Which fraction is greater than 6/8", True, text_clr)
+        question_surface = quiz_font.render("Which fraction is greater than 6/8?", True, text_clr)
         btn_a.update_text("A) 4 / 5")     #Correct
         btn_b.update_text("B) 2 / 3")
         btn_c.update_text("C) 1 / 2")
@@ -504,6 +505,29 @@ def advance_quiz():
         btn_c.update_text("C) -2 / 15")     #correct
         
     question_rect = question_surface.get_rect(centerx=screen.get_rect().centerx, top=150)
+
+def reset_quiz():
+    global score, current_question, correct_answer_key
+    global question_surface, question_rect
+
+    score = 0
+    current_question = 1
+    correct_answer_key = "A"
+
+    question_surface = quiz_font.render(
+        "Simplify: 24/50",
+        True,
+        text_clr
+    )
+
+    question_rect = question_surface.get_rect(
+        centerx=screen.get_rect().centerx,
+        top=150
+    )
+
+    btn_a.update_text("A) 12 / 25")
+    btn_b.update_text("B) 6 / 15")
+    btn_c.update_text("C) 24 / 25")
     
 # Button actions 
 def handle_choice_a(): evaluate_answer("A")
@@ -516,7 +540,7 @@ btn_b = Button(550, 320, 300, 70, "B) 6 / 15", handle_choice_b)
 btn_c = Button(350, 430, 300, 70, "C) 24 / 25", handle_choice_c)
                 
 # TITLE
-quiz_title_surface = quiz_font.render("---Advanced fraction quiz!---", True, text_clr)
+quiz_title_surface = quiz_font.render("---Advanced fraction quiz!---", True, light_bgclr)
 quiz_title_rect = quiz_title_surface.get_rect()
 quiz_title_rect.centerx = screen.get_rect().centerx  
 quiz_title_rect.top = 50
@@ -527,10 +551,22 @@ question_rect = question_surface.get_rect()
 question_rect.centerx = screen.get_rect().centerx  
 question_rect.top = 150
 
+#RESULTS Screen------------------------------------------------------
+
+# TITLE
+results_title_surface = quiz_font.render("---Results---", True, light_bgclr)
+results_title_rect = results_title_surface.get_rect()
+results_title_rect.centerx = screen.get_rect().centerx  
+results_title_rect.top = 50
+
 #EXIT Screen---------------------------------------------------------
 
 #Credits Duration
 text_duration = 10000 
+
+citations_path = os.path.join('images', 'citations.png')
+citations = pygame.image.load(citations_path).convert()
+citations = pygame.transform.scale(citations, (1000, 600))
 
 #Thanks Text Duration
 thanks_duration = 3000
@@ -690,10 +726,12 @@ while not done:
     
     elif current_state == STATE_QUIZ:
         if back_button.is_clicked(mouse_pos, event):
-            current_state = STATE_MENU   
-            score = 0
-            current_question = 1
-            correct_answer_key = "A"                
+            current_state = STATE_MENU        
+    
+    elif current_state == STATE_RESULTS:
+        if back_button.is_clicked(mouse_pos, event):
+            current_state = STATE_MENU
+            reset_quiz()          
     
     if current_state == STATE_MENU:
         
@@ -921,8 +959,8 @@ while not done:
         game_results_title = title_font.render("---Game Results---", True, light_bgclr)
         screen.blit(game_results_title, (160, 50))    
         
-        score = score_font.render(f"You got {game_results}/6!", True, text_clr)
-        screen.blit(score, (330, 230))
+        game_score = game_.render(f"You got {game_results}/6!", True, text_clr)
+        screen.blit(game_score, (330, 230))
         
         screen.blit(image_surface, (10, 375))
         
@@ -932,7 +970,7 @@ while not done:
         back_button.draw(screen)        
         
         if game_results == 0:
-            text = font.render("Try reviewing again...", True, text_clr)
+            text = font.render("No correct orders this time", True, text_clr)
             screen.blit(text, (345, 320))
         
         elif game_results == 1:
@@ -940,11 +978,11 @@ while not done:
             screen.blit(text, (340, 320))
             
         elif game_results == 2:
-            text = font.render("You need to work on your serving...", True, text_clr)
+            text = font.render("Not quite a full combo", True, text_clr)
             screen.blit(text, (240, 320))
         
         elif game_results == 3:
-            text = font.render("You're halfway to becoming a pizza server!", True, text_clr)
+            text = font.render("You're halfway to a flawless shift!", True, text_clr)
             screen.blit(text, (170, 320))
         
         elif game_results == 4:
@@ -959,7 +997,7 @@ while not done:
             text = font.render("You're a professional pizza server!", True, text_clr)
             screen.blit(text, (220, 320))                
     
-#QUIZ & RESULTS Screen----------------------------------------------------------
+#QUIZ Screen----------------------------------------------------------
         
     elif current_state == STATE_QUIZ:
         screen.fill(bg_clr)
@@ -979,42 +1017,78 @@ while not done:
             btn_a.draw(screen)
             btn_b.draw(screen)
             btn_c.draw(screen)
+            
         else:
+            screen.fill(bg_clr)
             end_surface = quiz_font.render("Quiz Complete!", True, text_clr)
             end_rect = end_surface.get_rect(center=(500, 260))
-    
-            final_score_surface = score_font.render(f"Final Score: {score} / 5 points", True, text_clr)
-            final_score_rect = final_score_surface.get_rect(center=(500, 360))       
-        
-            screen.blit(end_surface, end_rect)
-            screen.blit(final_score_surface, final_score_rect)    
-        
+            
+            end_text = subtitle_font.render("Click on 'Results' in the menu to view your score", True, text_clr)
+            
+            screen.blit(end_surface, end_rect) 
+            screen.blit(end_text, (185, 340))
+            
             back_button.check_hover(mouse_pos)
-            back_button.draw(screen)        
+            back_button.draw(screen)       
+            
+#RESULTS Screen--------------------------------------------------------
+    
+    elif current_state == STATE_RESULTS:
+        
+        screen.fill(bg_clr)
+        
+        #quiz results
+                
+        final_score_surface = score_font.render(f"Final Score: {score} / 5 points", True, text_clr)       
+                    
+        # title text 1
+        screen.blit(results_title_surface, results_title_rect)   
+        
+        screen.blit(final_score_surface, (340, 200))
+        
+        back_button.check_hover(mouse_pos)
+        back_button.draw(screen)        
+        
+        if score == 0:
+            text = font.render("Try reviewing again...", True, text_clr)
+            screen.blit(text, (330, 320))
+        
+        elif score == 1:
+            text = font.render("You're a fraction of the way there!", True, text_clr)
+            screen.blit(text, (220, 320))
+            
+        elif score == 2:
+            text = font.render("Good effort!", True, text_clr)
+            screen.blit(text, (390, 320))
+        
+        elif score == 3:
+            text = font.render("You're halfway there!", True, text_clr)
+            screen.blit(text, (335, 320))
+        
+        elif score == 4:
+            text = font.render("Just a slice away from perfection!", True, text_clr)
+            screen.blit(text, (220, 320))
+            
+        elif score == 5:
+            text = font.render("Perfect score!", True, text_clr)
+            screen.blit(text, (390, 320))                    
         
 #EXIT Screen-----------------------------------------------------------
     
     elif current_state == STATE_EXIT:
+        
         elapsed_time = pygame.time.get_ticks() - text_start_time
 
-        credits = [
-            "Insert credits"
-        ]
-    
-        small_font = pygame.font.Font("CaveatBrush-Regular.ttf", 32)
-    
         if elapsed_time < 10000:
+            
+            screen.blit(citations, (0, 0))
     
-            title = font.render("Credits", True, white)
-            screen.blit(title, (380, 50))
-    
-            for i, line in enumerate(credits):
-                text = small_font.render(line, True, white)
-                screen.blit(text, (100, 150 + i * 40))
+            title = font.render("Credits", True, light_bgclr)
+            screen.blit(title, (400, 20))
     
         elif elapsed_time < 13000:
     
-            thanks_text = font.render("Thanks for playing!", True, white)
+            thanks_text = title_font.render("Thanks for playing!", True, text_clr)
     
             x = (1000 - thanks_text.get_width()) // 2
             y = (600 - thanks_text.get_height()) // 2
