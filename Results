@@ -1,0 +1,17 @@
+import pygame
+import subprocess
+import os
+import sys
+
+pygame.font.init()
+quiz_font = pygame.font.Font("CaveatBrush-Regular.ttf", 80)
+score_font = pygame.font.Font("CaveatBrush-Regular.ttf", 40) 
+
+pygame.init()
+screen = pygame.display.set_mode((1000, 600))
+clock = pygame.time.Clock()
+pygame.display.set_caption("Welcome to Fraction Pizzeria ")
+done = False
+
+bg_clr = (151, 65, 31)
+text_clr = (236, 215, 175)
